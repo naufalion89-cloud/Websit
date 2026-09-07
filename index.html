@@ -1,0 +1,2724 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PT JALUR DATA INDONESIA - Sistem Manajemen WIFI Keluar Masuk</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    * {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .font-mono-receipt {
+      font-family: 'Space Mono', monospace;
+    }
+    /* Animated Live Gradient Background */
+    @keyframes slowGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .live-gradient-bg {
+      background: linear-gradient(-45deg, #0f172a, #1e1b4b, #172554, #042f2e, #090d16);
+      background-size: 400% 400%;
+      animation: slowGradient 18s ease infinite;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .glass-card-dark {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #94a3b8;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+    }
+    /* Thermal Printer Paper Style */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #printArea, #printArea * {
+        visibility: visible;
+      }
+      #printArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background: white !important;
+        color: black !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+    .thermal-receipt {
+      width: 320px;
+      margin: 0 auto;
+      background: #ffffff;
+      color: #000000;
+      padding: 16px 14px;
+      font-size: 12px;
+      line-height: 1.35;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      border: 1px dashed #cbd5e1;
+    }
+  </style>
+</head>
+
+<body class="live-gradient-bg min-h-screen text-slate-800 antialiased relative flex flex-col justify-between selection:bg-cyan-500 selection:text-white">
+
+  <header class="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-md border-b border-slate-700/60 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <!-- Logo & Brand -->
+      <div class="flex items-center gap-3 cursor-pointer" onclick="showSection('landing')">
+        <div id="companyLogoNav" class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/30 overflow-hidden border border-white/20">
+          <i class="fa-solid fa-wifi text-xl"></i>
+        </div>
+        <div>
+          <span class="text-xs uppercase tracking-widest font-bold text-cyan-400 block leading-tight">Internet Broadband</span>
+          <h1 id="brandNameHeader" class="text-lg sm:text-xl font-extrabold text-white tracking-tight">PT JALUR DATA INDONESIA</h1>
+        </div>
+      </div>
+
+      <!-- Nav Actions -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button onclick="showSection('landing')" class="hidden md:flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-200 hover:text-white hover:bg-slate-800 rounded-xl transition">
+          <i class="fa-solid fa-house"></i> Beranda
+        </button>
+        <button onclick="showSection('profil')" class="hidden sm:flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-200 hover:text-white hover:bg-slate-800 rounded-xl transition">
+          <i class="fa-solid fa-building"></i> Profil PT
+        </button>
+        <button onclick="showSection('cek-area')" class="flex items-center gap-2 px-4 py-2 text-sm font-bold bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl hover:shadow-lg hover:shadow-teal-500/30 transition transform active:scale-95">
+          <i class="fa-solid fa-location-crosshairs"></i> Cek Area & Daftar
+        </button>
+        <button onclick="showSection('kontak')" class="hidden lg:flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-200 hover:text-white hover:bg-slate-800 rounded-xl transition">
+          <i class="fa-solid fa-headset"></i> Kontak
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 text-white py-2 px-4 text-center text-xs sm:text-sm font-semibold tracking-wide shadow-md flex items-center justify-center gap-2">
+    <span class="bg-red-500 text-white px-2 py-0.5 rounded-full text-xs font-bold uppercase animate-pulse">Pemberitahuan</span>
+    <span>Melayani Pemasangan Resmi Wilayah <strong>Sukoharjo, Banyumas, & Pagelaran Utara</strong> | Hubungi WA 0812-7273-7850</span>
+  </div>
+
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- ================= SECTION 1: LANDING PAGE ================= -->
+    <section id="section-landing" class="space-y-12">
+      <!-- Hero Banner -->
+      <div class="relative rounded-3xl overflow-hidden glass-card-dark border border-slate-700/60 p-6 sm:p-12 text-white shadow-2xl">
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/90 to-transparent z-10"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-full sm:w-1/2 opacity-30 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=80');"></div>
+        
+        <div class="relative z-20 max-w-2xl space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 text-xs font-semibold">
+            <i class="fa-solid fa-bolt"></i> Ultra Fast Fiber Optic & Wireless Network
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-extrabold leading-tight tracking-tight">
+            Koneksi Internet Cepat, Stabil & Tanpa Batas Kuota
+          </h2>
+          <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+            PT JALUR DATA INDONESIA hadir menghadirkan revolusi internet broadband rumah, kantor, dan UMKM. Bebas FUP, latensi rendah, dengan tim respon teknis 24/7 siap melayani desa Anda.
+          </p>
+          <div class="flex flex-wrap gap-4 pt-2">
+            <button onclick="showSection('cek-area')" class="px-7 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 font-bold text-white shadow-lg shadow-cyan-500/40 hover:from-cyan-400 hover:to-blue-500 transform hover:-translate-y-0.5 transition active:scale-95 flex items-center gap-2">
+              <i class="fa-solid fa-paper-plane"></i> Ajukan Pasang Baru
+            </button>
+            <button onclick="showSection('profil')" class="px-6 py-3.5 rounded-2xl bg-slate-800/80 hover:bg-slate-700 border border-slate-600 font-semibold text-slate-200 transition flex items-center gap-2">
+              <i class="fa-solid fa-circle-info"></i> Kenali Profil Kami
+            </button>
+          </div>
+          <!-- Mini specs badges -->
+          <div class="grid grid-cols-3 gap-3 pt-6 border-t border-slate-700/60 text-center">
+            <div>
+              <div class="text-2xl sm:text-3xl font-black text-cyan-400">100%</div>
+              <div class="text-xs text-slate-400">Unlimited Kuota</div>
+            </div>
+            <div>
+              <div class="text-2xl sm:text-3xl font-black text-blue-400">&lt; 15ms</div>
+              <div class="text-xs text-slate-400">Latensi Game Rendah</div>
+            </div>
+            <div>
+              <div class="text-2xl sm:text-3xl font-black text-emerald-400">24/7</div>
+              <div class="text-xs text-slate-400">Dukungan Teknisi</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <div class="text-center max-w-xl mx-auto text-white">
+          <span class="text-cyan-400 font-bold tracking-wider text-xs uppercase">Pilihan Paket Terbaik</span>
+          <h3 class="text-2xl sm:text-3xl font-bold mt-1">Paket Internet WIFI Rumah & Bisnis</h3>
+          <p class="text-slate-300 text-sm mt-2">Harga transparan, sudah termasuk biaya pemeliharaan jaringan.</p>
+        </div>
+
+        <div id="publicPackageList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </div>
+
+      <div class="glass-card rounded-3xl p-6 sm:p-10 shadow-2xl border border-white/40 space-y-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-6">
+          <div>
+            <span class="text-cyan-600 font-bold text-xs uppercase tracking-wider">Aktivitas & Kualitas</span>
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Program Unggulan & Galeri Lapangan</h3>
+            <p class="text-slate-600 text-sm">Dokumentasi penarikan fiber optik, instalasi radio wireless, dan sosialisasi internet pedesaan.</p>
+          </div>
+          <span class="inline-flex items-center gap-2 bg-blue-50 text-blue-700 border border-blue-200 px-3 py-1.5 rounded-xl text-xs font-semibold self-start md:self-auto">
+            <i class="fa-solid fa-award"></i> Akreditasi Jaringan Handal
+          </span>
+        </div>
+
+        <!-- Highlights Row -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-gradient-to-br from-slate-50 to-cyan-50 rounded-2xl p-5 border border-cyan-100 shadow-sm">
+            <div class="w-10 h-10 rounded-xl bg-cyan-600 text-white flex items-center justify-center text-lg mb-3 shadow-md">
+              <i class="fa-solid fa-route"></i>
+            </div>
+            <h4 class="font-bold text-slate-900 text-base mb-1">Pemerataan Sinyal Desa</h4>
+            <p class="text-slate-600 text-xs leading-relaxed">Menghubungkan area pelosok Sukoharjo, Banyumas, dan Pagelaran Utara dengan jalur backbone FO terkini.</p>
+          </div>
+          <div class="bg-gradient-to-br from-slate-50 to-blue-50 rounded-2xl p-5 border border-blue-100 shadow-sm">
+            <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-lg mb-3 shadow-md">
+              <i class="fa-solid fa-bolt-lightning"></i>
+            </div>
+            <h4 class="font-bold text-slate-900 text-base mb-1">Fast Response Teknisi</h4>
+            <p class="text-slate-600 text-xs leading-relaxed">Penyelesaian kendala kabel putus atau gangguan router cepat tanggap oleh teknisi berpengalaman.</p>
+          </div>
+          <div class="bg-gradient-to-br from-slate-50 to-teal-50 rounded-2xl p-5 border border-teal-100 shadow-sm">
+            <div class="w-10 h-10 rounded-xl bg-teal-600 text-white flex items-center justify-center text-lg mb-3 shadow-md">
+              <i class="fa-solid fa-qrcode"></i>
+            </div>
+            <h4 class="font-bold text-slate-900 text-base mb-1">Pembayaran Multi-Channel</h4>
+            <p class="text-slate-600 text-xs leading-relaxed">Bayar iuran bulanan praktis via QRIS, Seabank, Dana, GoPay dengan struk otomatis langsung ke WA.</p>
+          </div>
+        </div>
+
+        <!-- Photo Gallery Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="group relative rounded-2xl overflow-hidden aspect-video bg-slate-200 shadow">
+            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80" alt="Server OLT Rack" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent flex items-end p-2.5">
+              <span class="text-white text-xs font-semibold">Ruang OLT & Server JDI</span>
+            </div>
+          </div>
+          <div class="group relative rounded-2xl overflow-hidden aspect-video bg-slate-200 shadow">
+            <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80" alt="Penarikan Kabel Fiber" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent flex items-end p-2.5">
+              <span class="text-white text-xs font-semibold">Penarikan Backbone FO</span>
+            </div>
+          </div>
+          <div class="group relative rounded-2xl overflow-hidden aspect-video bg-slate-200 shadow">
+            <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=600&q=80" alt="Pemasangan Router Pelanggan" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent flex items-end p-2.5">
+              <span class="text-white text-xs font-semibold">Instalasi Router Rumah</span>
+            </div>
+          </div>
+          <div class="group relative rounded-2xl overflow-hidden aspect-video bg-slate-200 shadow">
+            <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=600&q=80" alt="Tim Lapangan Banyumas" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent flex items-end p-2.5">
+              <span class="text-white text-xs font-semibold">Briefing Tim Lapangan</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <div class="text-center max-w-xl mx-auto text-white">
+          <span class="text-cyan-400 font-bold tracking-wider text-xs uppercase">Kepuasan Konsumen</span>
+          <h3 class="text-2xl sm:text-3xl font-bold mt-1">Apa Kata Pelanggan Setia JDI?</h3>
+          <p class="text-slate-300 text-sm mt-2">Testimoni nyata dari warga Sukoharjo, Banyumas, dan sekitarnya.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="glass-card rounded-2xl p-6 shadow-xl border border-white/50 space-y-3">
+            <div class="flex text-amber-400 gap-1 text-sm">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="text-slate-700 text-sm italic">"Pemasangan cepat sekali, sore daftar besok teknisi sudah datang ke rumah di Banyumas. Buat anak kuliah online lancar tidak pernah buffering!"</p>
+            <div class="pt-3 border-t border-slate-200 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold text-sm">BP</div>
+              <div>
+                <h5 class="text-xs font-bold text-slate-900">Bapak Priyanto</h5>
+                <span class="text-[11px] text-slate-500">Warga Banyumas, RT 010</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 shadow-xl border border-white/50 space-y-3">
+            <div class="flex text-amber-400 gap-1 text-sm">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="text-slate-700 text-sm italic">"Usaha toko kelontong saya sekarang sediakan voucher wifi dan pembayaran QRIS berkat jaringan JDI 30 Mbps. Mantap pelayanannya ramah."</p>
+            <div class="pt-3 border-t border-slate-200 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">IS</div>
+              <div>
+                <h5 class="text-xs font-bold text-slate-900">Ibu Siti Masitoh</h5>
+                <span class="text-[11px] text-slate-500">UMKM Sukoharjo III</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 shadow-xl border border-white/50 space-y-3">
+            <div class="flex text-amber-400 gap-1 text-sm">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="text-slate-700 text-sm italic">"Paling suka ada fitur struk otomatis dikirim via WhatsApp saat bayar tagihan bulanan. Rekeningnya lengkap ada Seabank, Dana, GoPay."</p>
+            <div class="pt-3 border-t border-slate-200 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-sm">RH</div>
+              <div>
+                <h5 class="text-xs font-bold text-slate-900">Rian Hidayat</h5>
+                <span class="text-[11px] text-slate-500">Pagelaran Utara</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SECTION 2: PROFIL PERUSAHAAN ================= -->
+    <section id="section-profil" class="hidden space-y-8">
+      <div class="glass-card rounded-3xl p-6 sm:p-12 shadow-2xl border border-white/50 space-y-8">
+        <!-- Back Button & Header -->
+        <div class="flex items-center justify-between border-b border-slate-200 pb-6">
+          <button onclick="showSection('landing')" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm transition flex items-center gap-2">
+            <i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda
+          </button>
+          <span class="text-xs font-bold uppercase tracking-wider text-cyan-600">Company Legal & History</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div class="lg:col-span-2 space-y-6">
+            <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Profil Singkat PT JALUR DATA INDONESIA</h2>
+            <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+              <strong>PT JALUR DATA INDONESIA (JDI)</strong> didirikan dengan tekad kuat mereduksi kesenjangan digital di area pedesaan dan sub-urban. Berawal dari jaringan komunitas lokal di wilayah Banyumas, Pringsewu, kini JDI telah bertransformasi menjadi penyelenggara jasa internet broadband handal dengan standar infrastruktur terkini.
+            </p>
+
+            <!-- Visi & Misi -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <div class="p-5 rounded-2xl bg-cyan-50 border border-cyan-200/80">
+                <div class="flex items-center gap-2 text-cyan-800 font-bold mb-2">
+                  <i class="fa-solid fa-eye text-cyan-600"></i> Visi Perusahaan
+                </div>
+                <p class="text-slate-700 text-xs sm:text-sm leading-relaxed">
+                  Menjadi penyedia jaringan akses internet terdepan yang terpercaya, berkecepatan tinggi, dan terjangkau bagi seluruh lapisan masyarakat dan pelaku UMKM pedesaan.
+                </p>
+              </div>
+
+              <div class="p-5 rounded-2xl bg-blue-50 border border-blue-200/80">
+                <div class="flex items-center gap-2 text-blue-800 font-bold mb-2">
+                  <i class="fa-solid fa-bullseye text-blue-600"></i> Misi Perusahaan
+                </div>
+                <ul class="text-slate-700 text-xs sm:text-sm space-y-1.5 list-disc list-inside">
+                  <li>Membangun infrastruktur Fiber Optic yang stabil hingga pelosok.</li>
+                  <li>Memberikan tarif transparan tanpa batas kuota (Unmetered).</li>
+                  <li>Menghadirkan layanan teknisi cepat tanggap dan ramah.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Struktur Organisasi -->
+            <div class="space-y-3 pt-4">
+              <h4 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                <i class="fa-solid fa-sitemap text-indigo-600"></i> Struktur Organisasi
+              </h4>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                  <div class="font-bold text-slate-800 text-xs">Direktur Utama</div>
+                  <div class="text-[11px] text-cyan-700 font-semibold">M. Ridho Pratama</div>
+                </div>
+                <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                  <div class="font-bold text-slate-800 text-xs">Head of Network (NOC)</div>
+                  <div class="text-[11px] text-cyan-700 font-semibold">Agus Setiawan, S.Kom</div>
+                </div>
+                <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                  <div class="font-bold text-slate-800 text-xs">Supervisor Lapangan</div>
+                  <div class="text-[11px] text-cyan-700 font-semibold">Hendra Kurniawan</div>
+                </div>
+                <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                  <div class="font-bold text-slate-800 text-xs">Customer Relations</div>
+                  <div class="text-[11px] text-cyan-700 font-semibold">Anisa Rahmawati</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Akreditasi & Legalitas -->
+            <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-start gap-3">
+              <i class="fa-solid fa-shield-check text-emerald-600 text-2xl mt-0.5"></i>
+              <div>
+                <h5 class="text-sm font-bold text-emerald-900">Akreditasi & Kemitraan Resmi</h5>
+                <p class="text-xs text-emerald-800 mt-0.5 leading-relaxed">
+                  Operasional di bawah izin penyelenggaraan telekomunikasi resmi nasional, bermitra dengan NAP fiber optic tier-1, serta mengimplementasikan standar keselamatan kerja jaringan (K3).
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logo Management & Badge Box -->
+          <div class="space-y-6">
+            <div class="p-6 rounded-3xl bg-slate-900 text-white space-y-4 text-center border border-slate-700">
+              <div class="mx-auto w-24 h-24 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 p-1 flex items-center justify-center shadow-lg shadow-cyan-500/30 overflow-hidden" id="companyLogoProfilWrapper">
+                <div id="companyLogoProfil" class="w-full h-full flex items-center justify-center bg-slate-900 rounded-xl">
+                  <i class="fa-solid fa-wifi text-3xl text-cyan-400"></i>
+                </div>
+              </div>
+              <div>
+                <h4 class="font-bold text-base text-white">Logo PT JDI</h4>
+                <p class="text-xs text-slate-400">Dapat diganti melalui galeri gambar perangkat Anda</p>
+              </div>
+              <label class="block">
+                <input type="file" accept="image/*" class="hidden" onchange="handleLogoUpload(event)" />
+                <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-xs font-bold text-white cursor-pointer transition">
+                  <i class="fa-solid fa-upload"></i> Ganti Logo via Galeri
+                </span>
+              </label>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+              <h5 class="text-xs font-bold text-slate-800 uppercase tracking-wide">Area Cakupan Utama</h5>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Kecamatan Banyumas (Banyumas, Sri Rahayu, Banyu Urip, Nusawungu), Sukoharjo, Pagelaran Utara, dan sekitarnya Kabupaten Pringsewu.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SECTION 3: CEK AREA & RESERVASI ================= -->
+    <section id="section-cek-area" class="hidden space-y-8">
+      <div class="glass-card rounded-3xl p-6 sm:p-10 shadow-2xl border border-white/50 max-w-3xl mx-auto space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+          <button onclick="showSection('landing')" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition flex items-center gap-2">
+            <i class="fa-solid fa-arrow-left"></i> Kembali
+          </button>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Pendaftaran Mandiri</span>
+        </div>
+
+        <div class="text-center space-y-2">
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Cek Jangkauan & Reservasi Pemasangan</h2>
+          <p class="text-slate-600 text-xs sm:text-sm">Isi formulir di bawah ini. Tim NOC dan teknisi kami akan memverifikasi ODP / tiang terdekat dan menerbitkan nomor reservasi Anda.</p>
+        </div>
+
+        <form id="formCekArea" onsubmit="handleCekAreaSubmit(event)" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lengkap Pemohon *</label>
+              <input type="text" id="regNama" required placeholder="Contoh: Budi Santoso" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Nomor WhatsApp Aktif *</label>
+              <input type="tel" id="regHP" required placeholder="081234567890" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Pilih Desa / Wilayah *</label>
+              <select id="regDesa" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white">
+                <option value="">-- Pilih Wilayah Desa --</option>
+                <option value="Banyumas (Kec. Banyumas)">Banyumas (Kec. Banyumas)</option>
+                <option value="Sri Rahayu (Kec. Banyumas)">Sri Rahayu (Kec. Banyumas)</option>
+                <option value="Banyu Urip (Kec. Banyumas)">Banyu Urip (Kec. Banyumas)</option>
+                <option value="Nusawungu (Kec. Banyumas)">Nusawungu (Kec. Banyumas)</option>
+                <option value="Sukoharjo I (Kec. Sukoharjo)">Sukoharjo I (Kec. Sukoharjo)</option>
+                <option value="Sukoharjo II (Kec. Sukoharjo)">Sukoharjo II (Kec. Sukoharjo)</option>
+                <option value="Sukoharjo III (Kec. Sukoharjo)">Sukoharjo III (Kec. Sukoharjo)</option>
+                <option value="Pagelaran Utara (Kec. Pagelaran Utara)">Pagelaran Utara</option>
+                <option value="Wilayah Lainnya Pringsewu">Wilayah Lainnya (Kab. Pringsewu)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Pilihan Paket Awal *</label>
+              <select id="regPaket" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white">
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Foto Lokasi / Rumah Depan (Galeri / Kamera) *</label>
+            <div class="flex flex-col sm:flex-row items-center gap-3">
+              <label class="w-full sm:w-auto px-4 py-2.5 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl text-xs font-semibold text-slate-700 cursor-pointer flex items-center justify-center gap-2">
+                <i class="fa-solid fa-camera"></i> Ambil Foto / Pilih Galeri
+                <input type="file" id="regFotoFile" accept="image/*" class="hidden" onchange="previewRegFoto(event)" />
+              </label>
+              <span id="regFotoFileName" class="text-xs text-slate-500 truncate max-w-xs">Belum ada foto dipilih</span>
+            </div>
+            <div id="regFotoPreviewWrapper" class="mt-2 hidden">
+              <img id="regFotoPreview" src="" alt="Preview Lokasi" class="h-32 rounded-xl object-cover border border-slate-300 shadow-sm" />
+            </div>
+          </div>
+
+          <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800 flex items-start gap-2">
+            <i class="fa-solid fa-triangle-exclamation text-amber-600 mt-0.5"></i>
+            <div>
+              Status permohonan akan berada dalam <strong>"Menunggu Verifikasi"</strong>. Admin menerima notifikasi sistem dan Anda langsung menerima Nomor Reservasi Resmi via WhatsApp.
+            </div>
+          </div>
+
+          <button type="submit" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold text-sm shadow-lg shadow-emerald-500/30 hover:shadow-xl transition transform active:scale-95 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-paper-plane"></i> Kirim Permohonan & Dapatkan No Reservasi
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ================= SECTION 4: KONTAK & GOOGLE MAPS ================= -->
+    <section id="section-kontak" class="hidden space-y-8">
+      <div class="glass-card rounded-3xl p-6 sm:p-10 shadow-2xl border border-white/50 space-y-8">
+        <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+          <button onclick="showSection('landing')" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition flex items-center gap-2">
+            <i class="fa-solid fa-arrow-left"></i> Kembali
+          </button>
+          <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Head Office & Support</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div class="space-y-6">
+            <div>
+              <span class="text-cyan-600 font-bold text-xs uppercase tracking-wider">Lokasi Kantor Resmi</span>
+              <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mt-1">PT JALUR DATA INDONESIA</h2>
+            </div>
+
+            <div class="space-y-4 text-sm text-slate-700">
+              <div class="flex items-start gap-3 p-3.5 bg-slate-50 border border-slate-200 rounded-2xl">
+                <i class="fa-solid fa-location-dot text-rose-500 text-xl mt-1"></i>
+                <div>
+                  <div class="font-bold text-slate-900">Alamat Kantor Operasional:</div>
+                  <p class="text-xs text-slate-600 leading-relaxed mt-0.5">
+                    Jl. AMD RT 010 RW 03 No 35 Banyumas, Kec. Banyumas, Kab. Pringsewu, Lampung (Tepat di Depan Pertashop).
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3 p-3.5 bg-slate-50 border border-slate-200 rounded-2xl">
+                <i class="fa-brands fa-whatsapp text-emerald-600 text-2xl"></i>
+                <div>
+                  <div class="font-bold text-slate-900">Customer Support & Call Center WA:</div>
+                  <a href="https://wa.me/6281272737850" target="_blank" class="text-xs text-emerald-700 font-semibold hover:underline">
+                    0812-7273-7850 (Klik untuk Chat Langsung)
+                  </a>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3 p-3.5 bg-slate-50 border border-slate-200 rounded-2xl">
+                <i class="fa-solid fa-clock text-blue-600 text-xl"></i>
+                <div>
+                  <div class="font-bold text-slate-900">Jam Layanan Pelanggan:</div>
+                  <p class="text-xs text-slate-600">Senin - Minggu: 08:00 - 21:00 WIB (NOC Jaringan Siaga 24 Jam)</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Direct Quick Message Form -->
+            <div class="p-4 bg-blue-50 border border-blue-200 rounded-2xl space-y-3">
+              <h4 class="text-xs font-bold text-blue-950 uppercase">Kirim Pesan Cepat ke CS</h4>
+              <input type="text" id="quickSenderName" placeholder="Nama Anda" class="w-full px-3 py-2 rounded-xl bg-white border border-blue-200 text-xs" />
+              <textarea id="quickSenderMsg" rows="2" placeholder="Tuliskan pertanyaan atau keluhan jaringan..." class="w-full px-3 py-2 rounded-xl bg-white border border-blue-200 text-xs"></textarea>
+              <button onclick="sendQuickWAMessage()" class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow">
+                <i class="fa-brands fa-whatsapp"></i> Teruskan Pesan ke WhatsApp
+              </button>
+            </div>
+          </div>
+
+          <!-- Google Maps Integration Display -->
+          <div class="space-y-3">
+            <div class="rounded-2xl overflow-hidden border border-slate-300 shadow-md h-80 sm:h-96 relative bg-slate-100">
+              <iframe
+                title="Peta Lokasi Kantor JDI Banyumas"
+                src="https://maps.google.com/maps?q=Banyumas%20Pringsewu%20Lampung&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                class="w-full h-full border-0"
+                allowfullscreen=""
+                loading="lazy">
+              </iframe>
+              <div class="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-sm p-3 rounded-xl border border-slate-200 shadow text-xs flex items-center justify-between">
+                <div>
+                  <strong class="text-slate-900 block">Titik Acuan Lokasi:</strong>
+                  <span class="text-slate-600 text-[11px]">Depan Pertashop Jl. AMD RT 010 RW 03 No 35 Banyumas</span>
+                </div>
+                <a href="https://maps.google.com/?q=Jl.+AMD+Banyumas+Pringsewu" target="_blank" class="px-2.5 py-1.5 bg-blue-600 text-white rounded-lg text-[11px] font-bold hover:bg-blue-500 transition">
+                  Buka Maps
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SECTION 5: ADMIN MANAGEMENT DASHBOARD ================= -->
+    <section id="section-admin" class="hidden space-y-6">
+      
+      <!-- Top Bar Admin Header -->
+      <div class="glass-card-dark rounded-2xl p-4 sm:p-6 text-white border border-slate-700/80 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500 text-slate-900 flex items-center justify-center font-bold text-lg">
+            <i class="fa-solid fa-user-shield"></i>
+          </div>
+          <div>
+            <h2 class="text-lg sm:text-xl font-bold tracking-tight">Panel Administrasi & Keuangan JDI</h2>
+            <p class="text-xs text-slate-400">Database Pelanggan, Kas Keluar Masuk, Cetak Struk & WA Gateway</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <button onclick="openModal('modalPetunjuk')" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+            <i class="fa-solid fa-book"></i> Petunjuk & Code.gs
+          </button>
+          <button onclick="logoutAdmin()" class="px-3 py-2 bg-rose-600/90 hover:bg-rose-600 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+            <i class="fa-solid fa-right-from-bracket"></i> Keluar
+          </button>
+        </div>
+      </div>
+
+      <!-- Admin Navigation Tabs -->
+      <div class="flex gap-2 overflow-x-auto pb-2 custom-scrollbar">
+        <button onclick="switchAdminTab('dash')" id="tabBtn-dash" class="admin-tab-btn px-4 py-2.5 rounded-xl font-bold text-xs whitespace-nowrap bg-cyan-500 text-slate-950 shadow-md">
+          <i class="fa-solid fa-chart-pie mr-1"></i> Dashboard Ringkasan
+        </button>
+        <button onclick="switchAdminTab('pelanggan')" id="tabBtn-pelanggan" class="admin-tab-btn px-4 py-2.5 rounded-xl font-bold text-xs whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700">
+          <i class="fa-solid fa-users mr-1"></i> Data Pelanggan (<span id="countBadgePelanggan">0</span>)
+        </button>
+        <button onclick="switchAdminTab('kas-masuk')" id="tabBtn-kas-masuk" class="admin-tab-btn px-4 py-2.5 rounded-xl font-bold text-xs whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700">
+          <i class="fa-solid fa-arrow-down-left-and-up-right-to-center mr-1"></i> Kas Masuk (Iuran)
+        </button>
+        <button onclick="switchAdminTab('kas-keluar')" id="tabBtn-kas-keluar" class="admin-tab-btn px-4 py-2.5 rounded-xl font-bold text-xs whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700">
+          <i class="fa-solid fa-money-bill-transfer mr-1"></i> Kas Keluar (Operasional)
+        </button>
+        <button onclick="switchAdminTab('paket')" id="tabBtn-paket" class="admin-tab-btn px-4 py-2.5 rounded-xl font-bold text-xs whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700">
+          <i class="fa-solid fa-network-wired mr-1"></i> Kelola Paket Internet
+        </button>
+        <button onclick="switchAdminTab('rekening')" id="tabBtn-rekening" class="admin-tab-btn px-4 py-2.5 rounded-xl font-bold text-xs whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700">
+          <i class="fa-solid fa-wallet mr-1"></i> Info Bank & QRIS
+        </button>
+        <button onclick="switchAdminTab('database')" id="tabBtn-database" class="admin-tab-btn px-4 py-2.5 rounded-xl font-bold text-xs whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700">
+          <i class="fa-solid fa-database mr-1"></i> Database CSV & Sync
+        </button>
+      </div>
+
+      <div id="adminTab-dash" class="admin-tab-content space-y-6">
+        <!-- 4 Stat Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="glass-card rounded-2xl p-4 border border-white/60 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-slate-500 uppercase">Pelanggan Aktif</span>
+              <div id="dashTotalAktif" class="text-2xl font-black text-emerald-600 mt-1">0</div>
+              <span class="text-[11px] text-slate-500">Koneksi Berjalan</span>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl">
+              <i class="fa-solid fa-wifi"></i>
+            </div>
+          </div>
+
+          <div class="glass-card rounded-2xl p-4 border border-white/60 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-slate-500 uppercase">Jatuh Tempo / Isolir</span>
+              <div id="dashTotalIsolir" class="text-2xl font-black text-rose-600 mt-1">0</div>
+              <span class="text-[11px] text-slate-500">Perlu Penagihan</span>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl">
+              <i class="fa-solid fa-circle-exclamation"></i>
+            </div>
+          </div>
+
+          <div class="glass-card rounded-2xl p-4 border border-white/60 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-slate-500 uppercase">Total Kas Masuk</span>
+              <div id="dashTotalMasuk" class="text-xl font-black text-blue-600 mt-1">Rp0</div>
+              <span class="text-[11px] text-slate-500">Akumulasi Pembayaran</span>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl">
+              <i class="fa-solid fa-arrow-down"></i>
+            </div>
+          </div>
+
+          <div class="glass-card rounded-2xl p-4 border border-white/60 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-slate-500 uppercase">Total Kas Keluar</span>
+              <div id="dashTotalKeluar" class="text-xl font-black text-amber-600 mt-1">Rp0</div>
+              <span class="text-[11px] text-slate-500">Pengeluaran Operasional</span>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl">
+              <i class="fa-solid fa-arrow-up"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Activity & New Reservation Requests -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Pending Area Verification -->
+          <div class="glass-card rounded-2xl p-5 border border-white/60 shadow-sm space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                <i class="fa-solid fa-bell text-amber-500"></i> Reservasi Baru / Menunggu Verifikasi
+              </h3>
+              <span id="badgeReservasiBaru" class="bg-amber-100 text-amber-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full">0 Permohonan</span>
+            </div>
+            <div id="listReservasiPending" class="space-y-3 max-h-80 overflow-y-auto custom-scrollbar">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Quick Action & Saldo Info -->
+          <div class="glass-card rounded-2xl p-5 border border-white/60 shadow-sm space-y-4 flex flex-col justify-between">
+            <div>
+              <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                <i class="fa-solid fa-scale-balanced text-cyan-600"></i> Saldo Kas Bersih JDI
+              </h3>
+              <div class="mt-4 p-5 bg-gradient-to-tr from-slate-900 to-indigo-950 rounded-2xl text-white space-y-1">
+                <span class="text-xs text-slate-400">Total Kas Bersih (Masuk - Keluar)</span>
+                <div id="dashSaldoBersih" class="text-3xl font-black text-cyan-400">Rp0</div>
+                <div class="text-[11px] text-slate-400 pt-1">Status Keuangan Terintegrasi</div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 pt-2">
+              <button onclick="openModalTambahPelanggan()" class="p-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition">
+                <i class="fa-solid fa-user-plus"></i> Tambah Pelanggan
+              </button>
+              <button onclick="openModalKas('masuk')" class="p-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition">
+                <i class="fa-solid fa-receipt"></i> Catat Kas Masuk
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="adminTab-pelanggan" class="admin-tab-content hidden space-y-4">
+        <div class="glass-card rounded-2xl p-5 border border-white/60 shadow-sm space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h3 class="font-bold text-slate-900 text-base">Manajemen Data Pelanggan WIFI</h3>
+              <p class="text-xs text-slate-500">Kelola status aktif, isolir, riwayat tagihan, dan jatuh tempo otomatis.</p>
+            </div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <button onclick="openModalTambahPelanggan()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 transition shadow">
+                <i class="fa-solid fa-plus"></i> Tambah Pelanggan Baru
+              </button>
+              <button onclick="exportCSVDirect()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 transition">
+                <i class="fa-solid fa-file-csv"></i> Export CSV
+              </button>
+            </div>
+          </div>
+
+          <!-- Search & Filter Bar -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="relative">
+              <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-xs"></i>
+              <input type="text" id="searchPelangganInput" oninput="renderTablePelanggan()" placeholder="Cari nama, WA, atau alamat..." class="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-cyan-500 focus:outline-none" />
+            </div>
+            <div>
+              <select id="filterStatusPelanggan" onchange="renderTablePelanggan()" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-cyan-500 focus:outline-none bg-white">
+                <option value="">Semua Status Pelanggan</option>
+                <option value="Aktif">Aktif</option>
+                <option value="Isolir">Isolir</option>
+                <option value="Menunggu Verifikasi">Menunggu Verifikasi</option>
+                <option value="Berhenti">Berhenti / Putus</option>
+              </select>
+            </div>
+            <div>
+              <select id="filterBayarPelanggan" onchange="renderTablePelanggan()" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-cyan-500 focus:outline-none bg-white">
+                <option value="">Semua Status Bayar</option>
+                <option value="Lunas">Lunas</option>
+                <option value="Belum Lunas">Belum Lunas</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Table Responsive -->
+          <div class="overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 uppercase tracking-wider">
+                <tr>
+                  <th class="p-3">Foto</th>
+                  <th class="p-3">Pelanggan & WA</th>
+                  <th class="p-3">Alamat / Desa</th>
+                  <th class="p-3">Paket & Biaya</th>
+                  <th class="p-3">Pasang / Jatuh Tempo</th>
+                  <th class="p-3">Status</th>
+                  <th class="p-3">Pembayaran</th>
+                  <th class="p-3 text-center">Aksi & Struk</th>
+                </tr>
+              </thead>
+              <tbody id="tablePelangganBody" class="divide-y divide-slate-200 bg-white">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="adminTab-kas-masuk" class="admin-tab-content hidden space-y-4">
+        <div class="glass-card rounded-2xl p-5 border border-white/60 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-bold text-slate-900 text-base">Riwayat Kas Masuk (Iuran / Registrasi)</h3>
+              <p class="text-xs text-slate-500">Pencatatan pembayaran langsung dengan fitur cetak struk thermal dan kirim WA.</p>
+            </div>
+            <button onclick="openModalKas('masuk')" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 transition">
+              <i class="fa-solid fa-plus"></i> Tambah Transaksi Kas Masuk
+            </button>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 uppercase">
+                <tr>
+                  <th class="p-3">No Transaksi</th>
+                  <th class="p-3">Tanggal</th>
+                  <th class="p-3">Pelanggan / Keterangan</th>
+                  <th class="p-3">Metode Bayar</th>
+                  <th class="p-3">Nominal</th>
+                  <th class="p-3 text-center">Aksi Cetak / WA</th>
+                </tr>
+              </thead>
+              <tbody id="tableKasMasukBody" class="divide-y divide-slate-200 bg-white">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="adminTab-kas-keluar" class="admin-tab-content hidden space-y-4">
+        <div class="glass-card rounded-2xl p-5 border border-white/60 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-bold text-slate-900 text-base">Riwayat Kas Keluar (Operasional & Pengeluaran)</h3>
+              <p class="text-xs text-slate-500">Catat pembelian kabel FO, router ONT, transport teknisi, dan perbaikan tiang.</p>
+            </div>
+            <button onclick="openModalKas('keluar')" class="px-3.5 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 transition">
+              <i class="fa-solid fa-minus"></i> Tambah Pengeluaran Kas Keluar
+            </button>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 uppercase">
+                <tr>
+                  <th class="p-3">No Ref</th>
+                  <th class="p-3">Tanggal</th>
+                  <th class="p-3">Kategori</th>
+                  <th class="p-3">Deskripsi Pengeluaran</th>
+                  <th class="p-3">Jumlah Nominal</th>
+                  <th class="p-3 text-center">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tableKasKeluarBody" class="divide-y divide-slate-200 bg-white">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="adminTab-paket" class="admin-tab-content hidden space-y-4">
+        <div class="glass-card rounded-2xl p-5 border border-white/60 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-bold text-slate-900 text-base">Kelola Paket Internet Broadband</h3>
+              <p class="text-xs text-slate-500">Ubah tarif, edit kecepatan, atau tambahkan paket baru untuk pelanggan.</p>
+            </div>
+            <button onclick="openModalPaket()" class="px-3.5 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 transition">
+              <i class="fa-solid fa-plus"></i> Tambah Paket Baru
+            </button>
+          </div>
+
+          <div id="adminPackageGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <div id="adminTab-rekening" class="admin-tab-content hidden space-y-4">
+        <div class="glass-card rounded-2xl p-5 border border-white/60 shadow-sm space-y-6">
+          <div>
+            <h3 class="font-bold text-slate-900 text-base">Pengaturan Rekening Pembayaran & QRIS</h3>
+            <p class="text-xs text-slate-500">Informasi ini dicetak pada struk kasir dan pesan WhatsApp konfirmasi pembayaran.</p>
+          </div>
+
+          <form onsubmit="handleSaveRekening(event)" class="space-y-4 max-w-2xl">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Bank Seabank *</label>
+                <input type="text" id="settingSeabank" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-semibold" value="9019-3294-4941" />
+                <span class="text-[10px] text-slate-500">a.n PT Jalur Data Indonesia</span>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">E-Wallet DANA *</label>
+                <input type="text" id="settingDana" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-semibold" value="0812-7273-7850" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">E-Wallet GOPAY *</label>
+                <input type="text" id="settingGopay" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-semibold" value="0812-7273-7850" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">No WhatsApp CS / Admin *</label>
+                <input type="text" id="settingWA" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-semibold" value="0812-7273-7850" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Gambar Barcode QRIS (Upload via Galeri)</label>
+              <div class="flex items-center gap-4">
+                <label class="px-4 py-2 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl text-xs font-bold text-slate-700 cursor-pointer flex items-center gap-2">
+                  <i class="fa-solid fa-qrcode"></i> Pilih QRIS dari Galeri
+                  <input type="file" accept="image/*" class="hidden" onchange="handleQRISUpload(event)" />
+                </label>
+                <div id="qrisPreviewWrapper" class="h-20 w-20 rounded-xl border border-slate-300 bg-white flex items-center justify-center overflow-hidden">
+                  <img id="qrisPreviewImg" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PT_JALUR_DATA_INDONESIA_BANYUMAS" alt="QRIS" class="w-full h-full object-contain" />
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow transition">
+              <i class="fa-solid fa-floppy-disk mr-1"></i> Simpan Pengaturan Rekening
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div id="adminTab-database" class="admin-tab-content hidden space-y-4">
+        <div class="glass-card rounded-2xl p-5 border border-white/60 shadow-sm space-y-6">
+          <div>
+            <h3 class="font-bold text-slate-900 text-base">Sinkronisasi & Database CSV Otomatis</h3>
+            <p class="text-xs text-slate-500">Buat file database CSV terstruktur secara langsung dengan sekali klik, dukung import-export dan auto-reload.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Create DB Button (Wajib) -->
+            <div class="p-4 bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl space-y-3">
+              <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center">
+                <i class="fa-solid fa-file-arrow-down"></i>
+              </div>
+              <h4 class="font-bold text-emerald-950 text-sm">Buat Database (CSV Wajib)</h4>
+              <p class="text-slate-600 text-xs leading-relaxed">Otomatis generate file database CSV komplit berisikan struktur data pelanggan aktif saat ini dan auto reload sistem.</p>
+              <button onclick="buatDatabaseCSVWajib()" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow flex items-center justify-center gap-2 transition">
+                <i class="fa-solid fa-bolt"></i> Buat Database Sekarang
+              </button>
+            </div>
+
+            <!-- Import CSV -->
+            <div class="p-4 bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl space-y-3">
+              <div class="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center">
+                <i class="fa-solid fa-file-arrow-up"></i>
+              </div>
+              <h4 class="font-bold text-blue-950 text-sm">Import Database CSV</h4>
+              <p class="text-slate-600 text-xs leading-relaxed">Muat data pelanggan dari berkas CSV lama atau hasil spreadsheet. Data langsung disinkronisasi ke memori aplikasi.</p>
+              <label class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow flex items-center justify-center gap-2 cursor-pointer transition">
+                <i class="fa-solid fa-upload"></i> Pilih File CSV
+                <input type="file" accept=".csv" class="hidden" onchange="handleImportCSV(event)" />
+              </label>
+            </div>
+
+            <!-- Export CSV -->
+            <div class="p-4 bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200 rounded-2xl space-y-3">
+              <div class="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center">
+                <i class="fa-solid fa-file-export"></i>
+              </div>
+              <h4 class="font-bold text-purple-950 text-sm">Export Data Pelanggan</h4>
+              <p class="text-slate-600 text-xs leading-relaxed">Unduh salinan berkas cadangan data pelanggan lengkap beserta status jatuh tempo dan no WhatsApp.</p>
+              <button onclick="exportCSVDirect()" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl shadow flex items-center justify-center gap-2 transition">
+                <i class="fa-solid fa-download"></i> Unduh File CSV
+              </button>
+            </div>
+          </div>
+
+          <!-- Google Apps Script API Connection Card -->
+          <div class="p-5 rounded-2xl bg-slate-900 text-white space-y-3 border border-slate-700">
+            <div class="flex items-center justify-between">
+              <h4 class="font-bold text-sm text-cyan-400 flex items-center gap-2">
+                <i class="fa-brands fa-google"></i> Integrasi Google Apps Script (GAS) & Google Sheets
+              </h4>
+              <button onclick="openModal('modalPetunjuk')" class="text-xs text-slate-300 hover:text-white underline">
+                Buka Source Code.gs
+              </button>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Anda dapat menghubungkan aplikasi ini dengan Web App URL Google Apps Script yang telah Anda deploy dari Google Sheets.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-2">
+              <input type="url" id="gasApiUrl" placeholder="https://script.google.com/macros/s/.../exec" class="flex-grow px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-xs text-white focus:outline-none focus:ring-2 focus:ring-cyan-500" />
+              <button onclick="saveAndTestGAS()" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded-xl transition">
+                Simpan & Sinkronkan
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mt-12 py-6 border-t border-slate-800 bg-slate-950/80 text-slate-400 text-xs relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div>
+        &copy; <span id="currentYear"></span> <strong>PT JALUR DATA INDONESIA</strong>. Seluruh Hak Cipta Dilindungi.
+      </div>
+      <div class="flex items-center gap-4 text-slate-400">
+        <span>Banyumas - Sukoharjo - Pagelaran Utara</span>
+        <span>WA: 0812-7273-7850</span>
+      </div>
+    </div>
+
+    <!-- TOMBOL RAHASIA POJOK KIRI BAWAH GRADASI 10% (Wajib & Discrete) -->
+    <div class="absolute left-2 bottom-2 z-50">
+      <button
+        onclick="openLoginModal()"
+        title="Admin Portal"
+        class="w-8 h-8 rounded-lg flex items-center justify-center transition duration-500 opacity-10 hover:opacity-100 bg-gradient-to-tr from-cyan-500/20 to-blue-600/20 hover:bg-cyan-600 text-white/50 hover:text-white shadow-sm cursor-pointer"
+      >
+        <i class="fa-solid fa-key text-xs"></i>
+      </button>
+    </div>
+  </footer>
+
+  <!-- ================= MODALS SECTION ================= -->
+
+  <div id="modalLogin" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-sm w-full border border-white/60 shadow-2xl space-y-5 animate-fade-in">
+      <div class="text-center space-y-1">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 text-white flex items-center justify-center mx-auto text-xl shadow-md">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900">Login Administrator</h3>
+        <p class="text-xs text-slate-500">PT Jalur Data Indonesia</p>
+      </div>
+
+      <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Kata Sandi Dasbor *</label>
+          <input
+            type="password"
+            id="loginPassword"
+            required
+            placeholder="Masukkan kata sandi..."
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-cyan-500 focus:outline-none"
+          />
+          <span class="text-[10px] text-slate-400 block mt-1">Sandi default: <strong>adminjdi123</strong></span>
+        </div>
+
+        <div class="flex gap-2">
+          <button type="button" onclick="closeModal('modalLogin')" class="w-1/2 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs transition">
+            Batal
+          </button>
+          <button type="submit" class="w-1/2 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs transition shadow">
+            Masuk
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modalPelanggan" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-2xl w-full border border-white/60 shadow-2xl space-y-4 my-8">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <h3 id="modalPelangganTitle" class="text-lg font-bold text-slate-900">Tambah Data Pelanggan Baru</h3>
+        <button onclick="closeModal('modalPelanggan')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <form id="formPelanggan" onsubmit="handleSavePelanggan(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="editPelangganId" value="" />
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Nama Lengkap Pelanggan *</label>
+            <input type="text" id="inpNama" required placeholder="Nama pelanggan" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs" />
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Nomor WhatsApp *</label>
+            <input type="tel" id="inpWA" required placeholder="081234567890" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Alamat Lengkap / Desa *</label>
+          <input type="text" id="inpAlamat" required placeholder="Contoh: RT 010 RW 03 Banyumas" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs" />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Paket Internet *</label>
+            <select id="inpPaket" onchange="syncPackagePriceInput()" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs bg-white">
+              <!-- Populated by JS -->
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Harga Paket (Rp) *</label>
+            <input type="number" id="inpHarga" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs bg-slate-50" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Tanggal Pemasangan *</label>
+            <input type="date" id="inpTglPasang" required onchange="calculateDueDate()" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs" />
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Tanggal Jatuh Tempo (Otomatis +30 Hari) *</label>
+            <input type="date" id="inpTglTempo" required readonly class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs bg-slate-100 font-semibold" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Status Pelanggan *</label>
+            <select id="inpStatusPelanggan" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs bg-white">
+              <option value="Aktif">Aktif</option>
+              <option value="Isolir">Isolir</option>
+              <option value="Menunggu Verifikasi">Menunggu Verifikasi</option>
+              <option value="Berhenti">Berhenti</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Status Pembayaran *</label>
+            <select id="inpStatusBayar" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs bg-white">
+              <option value="Belum Lunas">Belum Lunas</option>
+              <option value="Lunas">Lunas</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Camera & Gallery Capture for Customer Photo -->
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Foto Pelanggan / Router (Kamera / Galeri)</label>
+          <div class="flex flex-wrap items-center gap-2">
+            <label class="px-3 py-2 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl font-semibold text-slate-700 cursor-pointer flex items-center gap-1.5">
+              <i class="fa-solid fa-images"></i> Pilih Galeri
+              <input type="file" accept="image/*" class="hidden" onchange="handleCustomerPhotoUpload(event)" />
+            </label>
+            <button type="button" onclick="startCameraCapture()" class="px-3 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl font-semibold flex items-center gap-1.5">
+              <i class="fa-solid fa-camera"></i> Buka Kamera Langsung
+            </button>
+            <button type="button" onclick="clearCustomerPhoto()" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-600 rounded-xl">
+              Hapus Foto
+            </button>
+          </div>
+
+          <!-- Video live container for camera stream -->
+          <div id="cameraStreamContainer" class="hidden mt-2 p-2 bg-slate-900 rounded-xl space-y-2">
+            <video id="cameraVideo" autoplay playsinline class="w-full h-44 object-cover rounded-lg bg-black"></video>
+            <div class="flex justify-end gap-2">
+              <button type="button" onclick="captureFromCamera()" class="px-3 py-1.5 bg-emerald-500 text-white font-bold rounded-lg text-xs">Ambil Gambar</button>
+              <button type="button" onclick="stopCameraStream()" class="px-3 py-1.5 bg-slate-600 text-white font-bold rounded-lg text-xs">Tutup</button>
+            </div>
+          </div>
+
+          <div id="customerPhotoPreviewContainer" class="mt-2">
+            <img id="customerPhotoPreview" src="https://placehold.co/100x100/0284c7/ffffff?text=User" alt="Foto Pelanggan" class="w-16 h-16 rounded-xl object-cover border border-slate-300" />
+          </div>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2 border-t border-slate-200">
+          <button type="button" onclick="closeModal('modalPelanggan')" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold transition">Batal</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold transition shadow">Simpan Data Pelanggan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modalKas" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-card rounded-3xl p-6 max-w-md w-full border border-white/60 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+        <h3 id="modalKasTitle" class="text-base font-bold text-slate-900">Catat Transaksi Kas</h3>
+        <button onclick="closeModal('modalKas')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <form id="formKas" onsubmit="handleSaveKas(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="inpKasTipe" value="masuk" />
+        
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Tanggal Transaksi *</label>
+          <input type="date" id="inpKasTanggal" required class="w-full px-3 py-2 rounded-xl border border-slate-300" />
+        </div>
+
+        <div id="fieldKasPelanggan">
+          <label class="block font-bold text-slate-700 mb-1">Pelanggan (Opsional)</label>
+          <select id="inpKasPelangganId" onchange="autoFillKasPelanggan()" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white">
+            <option value="">-- Pilih Pelanggan (Bila Pembayaran Iuran) --</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Keterangan / Deskripsi *</label>
+          <input type="text" id="inpKasDeskripsi" required placeholder="Contoh: Pembayaran Iuran Bulan Mei" class="w-full px-3 py-2 rounded-xl border border-slate-300" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Metode Bayar *</label>
+            <select id="inpKasMetode" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white">
+              <option value="Tunai / Cash">Tunai / Cash</option>
+              <option value="Transfer Seabank">Transfer Seabank</option>
+              <option value="DANA">DANA</option>
+              <option value="GOPAY">GOPAY</option>
+              <option value="QRIS">QRIS</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Nominal (Rp) *</label>
+            <input type="number" id="inpKasNominal" required placeholder="0" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900" />
+          </div>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-3 border-t border-slate-200">
+          <button type="button" onclick="closeModal('modalKas')" class="px-4 py-2 rounded-xl bg-slate-200 font-bold">Batal</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition shadow">Simpan Transaksi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modalStruk" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="glass-card rounded-3xl p-6 max-w-sm w-full border border-white/60 shadow-2xl space-y-4 my-8">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-2 no-print">
+        <h3 class="text-sm font-bold text-slate-900 flex items-center gap-1.5">
+          <i class="fa-solid fa-receipt text-cyan-600"></i> Struk Thermal Pembayaran
+        </h3>
+        <button onclick="closeModal('modalStruk')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <!-- Printable Receipt Paper -->
+      <div id="printArea">
+        <div class="thermal-receipt font-mono-receipt">
+          <div class="text-center pb-2 border-b border-dashed border-slate-400 space-y-1">
+            <div class="text-sm font-bold uppercase tracking-wider">PT JALUR DATA INDONESIA</div>
+            <div class="text-[10px]">Jl. AMD RT 010 RW 03 No 35 Banyumas</div>
+            <div class="text-[10px]">Depan Pertashop Kec. Banyumas Pringsewu</div>
+            <div class="text-[10px]">WA: 0812-7273-7850</div>
+          </div>
+
+          <div class="py-2 border-b border-dashed border-slate-400 space-y-1 text-[11px]">
+            <div class="flex justify-between">
+              <span>NO NOTA:</span>
+              <span id="receiptNo" class="font-bold">INV-0001</span>
+            </div>
+            <div class="flex justify-between">
+              <span>TANGGAL:</span>
+              <span id="receiptDate">01/01/2026 12:00</span>
+            </div>
+            <div class="flex justify-between">
+              <span>PELANGGAN:</span>
+              <span id="receiptNama" class="font-bold uppercase">Budi</span>
+            </div>
+            <div class="flex justify-between">
+              <span>NO WA:</span>
+              <span id="receiptWA">08123456789</span>
+            </div>
+          </div>
+
+          <div class="py-2 border-b border-dashed border-slate-400 space-y-1 text-[11px]">
+            <div class="flex justify-between font-bold">
+              <span id="receiptPaket">Paket 20 Mbps</span>
+              <span id="receiptHarga">Rp155.000</span>
+            </div>
+            <div class="flex justify-between text-[10px] text-slate-600">
+              <span>Status Tempo Baru:</span>
+              <span id="receiptNextTempo">15/02/2026</span>
+            </div>
+            <div class="flex justify-between text-[10px] text-slate-600">
+              <span>Metode Bayar:</span>
+              <span id="receiptMetode">Seabank</span>
+            </div>
+          </div>
+
+          <div class="py-2 border-b border-dashed border-slate-400 text-xs">
+            <div class="flex justify-between font-bold text-sm">
+              <span>TOTAL BAYAR:</span>
+              <span id="receiptTotal">Rp155.000</span>
+            </div>
+            <div class="text-center font-bold text-[11px] text-emerald-800 bg-emerald-50 py-1 mt-1 rounded border border-emerald-300">
+              LUNAS - TERIMA KASIH
+            </div>
+          </div>
+
+          <div class="pt-2 text-center text-[9px] text-slate-600 space-y-0.5">
+            <div>Terima kasih atas kepercayaan Anda</div>
+            <div>Simpan struk ini sebagai bukti pembayaran sah.</div>
+            <div class="font-bold pt-1">PT JALUR DATA INDONESIA - KONEKSI TANPA BATAS</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col gap-2 pt-2 no-print">
+        <button onclick="window.print()" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow">
+          <i class="fa-solid fa-print"></i> Cetak Struk Printer Thermal (58/80mm)
+        </button>
+        <button onclick="sendReceiptWAFromModal()" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow">
+          <i class="fa-brands fa-whatsapp"></i> Kirim Struk Terima Kasih via WhatsApp
+        </button>
+        <button onclick="closeModal('modalStruk')" class="w-full py-2 bg-slate-200 text-slate-700 rounded-xl font-bold text-xs">
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modalPaketEdit" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-card rounded-3xl p-6 max-w-sm w-full border border-white/60 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+        <h3 id="modalPaketTitle" class="text-base font-bold text-slate-900">Tambah / Edit Paket Internet</h3>
+        <button onclick="closeModal('modalPaketEdit')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <form onsubmit="handleSavePaket(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="editPaketIndex" value="-1" />
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Nama Paket *</label>
+          <input type="text" id="inpPaketNama" required placeholder="Contoh: 20 Mbps — Hemat" class="w-full px-3 py-2 rounded-xl border border-slate-300" />
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Kecepatan Internet *</label>
+          <input type="text" id="inpPaketSpeed" required placeholder="Contoh: 20 Mbps" class="w-full px-3 py-2 rounded-xl border border-slate-300" />
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Harga Bulanan (Rp) *</label>
+          <input type="number" id="inpPaketHarga" required placeholder="Contoh: 155000" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold" />
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Deskripsi Singkat</label>
+          <input type="text" id="inpPaketDesc" placeholder="Cocok untuk 3-5 perangkat" class="w-full px-3 py-2 rounded-xl border border-slate-300" />
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('modalPaketEdit')" class="px-4 py-2 rounded-xl bg-slate-200 font-bold">Batal</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold transition shadow">Simpan Paket</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modalPetunjuk" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-3xl w-full border border-white/60 shadow-2xl space-y-6 my-8 max-h-[88vh] overflow-y-auto custom-scrollbar">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <div>
+          <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-book-open text-cyan-600"></i> Petunjuk Penggunaan & Kode Backend Google Apps Script (Code.gs)
+          </h3>
+          <p class="text-xs text-slate-500">Panduan lengkap pengoperasian & integrasi Google Sheets</p>
+        </div>
+        <button onclick="closeModal('modalPetunjuk')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <!-- Quick Steps -->
+      <div class="space-y-4 text-xs text-slate-700">
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+          <h4 class="font-bold text-slate-900 text-sm">A. Cara Mengakses Dasbor Admin:</h4>
+          <p>
+            1. Pada halaman publik di pojok kiri paling bawah terdapat <strong>tombol rahasia transparan 10%</strong> (ikon kunci kecil).<br/>
+            2. Klik tombol tersebut untuk membuka jendela login.<br/>
+            3. Masukkan kata sandi default: <code class="bg-cyan-100 text-cyan-900 px-2 py-0.5 rounded font-mono font-bold">adminjdi123</code>.
+          </p>
+        </div>
+
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+          <h4 class="font-bold text-slate-900 text-sm">B. Fitur Otomatis Jatuh Tempo & Cetak Struk:</h4>
+          <p>
+            1. Setiap penambahan pelanggan baru, <strong>Tanggal Jatuh Tempo dihitung otomatis 30 hari</strong> dari tanggal pasang.<br/>
+            2. Tombol Cetak Nota langsung disesuaikan dengan format kertas thermal printer kasir 58mm / 80mm.<br/>
+            3. Terdapat tombol <strong>"Kirim Struk Terima Kasih via WA"</strong> yang membuka WhatsApp secara otomatis dengan pesan rapi dan rincian rekening transfer (Seabank, DANA, GoPay).
+          </p>
+        </div>
+
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+          <h4 class="font-bold text-slate-900 text-sm">C. Pembuatan Database CSV (Wajib):</h4>
+          <p>
+            Masuk ke menu <strong>Database CSV & Sync</strong>, lalu klik <strong>"Buat Database Sekarang"</strong>. Aplikasi akan meracik dan mengunduh database CSV terstandarisasi serta me-reload data secara otomatis.
+          </p>
+        </div>
+
+        <!-- Code.gs Display Section -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+              <i class="fa-brands fa-google text-emerald-600"></i> Backend Google Apps Script (Code.gs)
+            </h4>
+            <button onclick="copyCodeGS()" class="px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-bold transition">
+              <i class="fa-solid fa-copy"></i> Salin Code.gs
+            </button>
+          </div>
+          <p class="text-[11px] text-slate-500">
+            Salin kode di bawah ini ke <em>script.google.com</em>, hubungkan dengan Google Spreadsheet Anda, lalu klik Deploy &gt; New Deployment &gt; Web App (Access: Anyone).
+          </p>
+          <pre id="codeGsBlock" class="p-4 bg-slate-950 text-cyan-300 rounded-2xl text-[11px] font-mono overflow-x-auto border border-slate-800 leading-relaxed">
+/**
+ * GOOGLE APPS SCRIPT BACKEND: PT JALUR DATA INDONESIA
+ * Manajemen Pelanggan WIFI Keluar Masuk & Kas Keuangan
+ */
+
+function doGet(e) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName("Pelanggan");
+  if (!sheet) {
+    sheet = ss.insertSheet("Pelanggan");
+    sheet.appendRow(["ID", "Nama", "No_WA", "Alamat", "Paket", "Harga", "Tgl_Pasang", "Tgl_Tempo", "Status_Pelanggan", "Status_Bayar", "Foto"]);
+  }
+  
+  var data = sheet.getDataRange().getValues();
+  var headers = data[0];
+  var result = [];
+  
+  for (var i = 1; i < data.length; i++) {
+    var row = data[i];
+    var obj = {};
+    for (var j = 0; j < headers.length; j++) {
+      obj[headers[j]] = row[j];
+    }
+    result.push(obj);
+  }
+  
+  return ContentService.createTextOutput(JSON.stringify({
+    status: "success",
+    data: result
+  })).setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName("Pelanggan");
+    if (!sheet) {
+      sheet = ss.insertSheet("Pelanggan");
+      sheet.appendRow(["ID", "Nama", "No_WA", "Alamat", "Paket", "Harga", "Tgl_Pasang", "Tgl_Tempo", "Status_Pelanggan", "Status_Bayar", "Foto"]);
+    }
+    
+    var payload = JSON.parse(e.postData.contents);
+    var action = payload.action;
+    
+    if (action === "syncAll") {
+      sheet.clearContents();
+      sheet.appendRow(["ID", "Nama", "No_WA", "Alamat", "Paket", "Harga", "Tgl_Pasang", "Tgl_Tempo", "Status_Pelanggan", "Status_Bayar", "Foto"]);
+      
+      var list = payload.data || [];
+      for (var i = 0; i < list.length; i++) {
+        var p = list[i];
+        sheet.appendRow([
+          p.id || "",
+          p.nama || "",
+          p.wa || "",
+          p.alamat || "",
+          p.paket || "",
+          p.harga || 0,
+          p.tglPasang || "",
+          p.tglTempo || "",
+          p.statusPelanggan || "Aktif",
+          p.statusBayar || "Belum Lunas",
+          p.foto || ""
+        ]);
+      }
+      return ContentService.createTextOutput(JSON.stringify({ status: "success", message: "Sinkronisasi Google Sheets Berhasil!" })).setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", message: "Aksi tidak dikenal" })).setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", message: err.toString() })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+          </pre>
+        </div>
+      </div>
+
+      <div class="flex justify-end pt-2 border-t border-slate-200">
+        <button onclick="closeModal('modalPetunjuk')" class="px-5 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs">Tutup Panduan</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 transform transition-all duration-300 translate-y-24 opacity-0 pointer-events-none">
+    <div id="toastCard" class="px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3 text-xs font-semibold text-white bg-slate-900 border border-slate-700">
+      <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+      <span id="toastMsg">Pemberitahuan</span>
+    </div>
+  </div>
+
+  <script>
+    /* ================= DATA STATE INITIALIZATION ================= */
+    const STATE_KEY_PELANGGAN = "jdi_pelanggan_db_v1";
+    const STATE_KEY_KAS = "jdi_kas_db_v1";
+    const STATE_KEY_PAKET = "jdi_paket_db_v1";
+    const STATE_KEY_REKENING = "jdi_rekening_db_v1";
+    const STATE_KEY_LOGO = "jdi_logo_db_v1";
+
+    // Default Packages (Sesuai Ketentuan)
+    const DEFAULT_PACKAGES = [
+      { nama: "20 Mbps — Hemat Ceria", speed: "20 Mbps", harga: 155000, desc: "Cocok untuk penggunaan streaming 3-4 HP" },
+      { nama: "25 Mbps — Keluarga Pintar", speed: "25 Mbps", harga: 167000, desc: "Rekomendasi rumah tangga & belajar online" },
+      { nama: "30 Mbps — Cepat Stabil", speed: "30 Mbps", harga: 205000, desc: "Streaming 4K, Smart TV, Game online latensi rendah" },
+      { nama: "50 Mbps — Bisnis / UMKM", speed: "50 Mbps", harga: 255000, desc: "Performa maksimal kantor, warkop & banyak gawai" }
+    ];
+
+    // Default Initial Data
+    const DEFAULT_PELANGGAN = [
+      {
+        id: "JDI-1001",
+        nama: "Budi Santoso",
+        wa: "081272737850",
+        alamat: "Banyumas RT 010 RW 03, Depan Pertashop",
+        paket: "20 Mbps",
+        harga: 155000,
+        tglPasang: "2026-08-01",
+        tglTempo: "2026-08-31",
+        statusPelanggan: "Aktif",
+        statusBayar: "Lunas",
+        foto: "https://placehold.co/120x120/0284c7/ffffff?text=Budi"
+      },
+      {
+        id: "JDI-1002",
+        nama: "Siti Rahmawati",
+        wa: "081398765432",
+        alamat: "Sukoharjo III, Pringsewu",
+        paket: "25 Mbps",
+        harga: 167000,
+        tglPasang: "2026-08-10",
+        tglTempo: "2026-09-09",
+        statusPelanggan: "Aktif",
+        statusBayar: "Belum Lunas",
+        foto: "https://placehold.co/120x120/059669/ffffff?text=Siti"
+      },
+      {
+        id: "JDI-1003",
+        nama: "Ahmad Fauzi",
+        wa: "085212348765",
+        alamat: "Pagelaran Utara, RT 02",
+        paket: "30 Mbps",
+        harga: 205000,
+        tglPasang: "2026-07-15",
+        tglTempo: "2026-08-14",
+        statusPelanggan: "Isolir",
+        statusBayar: "Belum Lunas",
+        foto: "https://placehold.co/120x120/dc2626/ffffff?text=Fauzi"
+      },
+      {
+        id: "RES-JDI-8921",
+        nama: "Iwan Supriyadi",
+        wa: "087711223344",
+        alamat: "Sri Rahayu, Banyumas",
+        paket: "20 Mbps",
+        harga: 155000,
+        tglPasang: "2026-09-01",
+        tglTempo: "2026-10-01",
+        statusPelanggan: "Menunggu Verifikasi",
+        statusBayar: "Belum Lunas",
+        foto: "https://placehold.co/120x120/d97706/ffffff?text=Iwan"
+      }
+    ];
+
+    const DEFAULT_KAS = [
+      { id: "KM-2601", tipe: "masuk", tgl: "2026-08-01", pelangganId: "JDI-1001", nama: "Budi Santoso", ket: "Pembayaran Iuran Agustus", metode: "Transfer Seabank", nominal: 155000 },
+      { id: "KK-2601", tipe: "keluar", tgl: "2026-08-02", kategori: "Operasional", ket: "Beli Patchcord FO & Alkohol Pembersih Core", metode: "Tunai", nominal: 75000 },
+      { id: "KK-2602", tipe: "keluar", tgl: "2026-08-05", kategori: "Teknisi", ket: "Transport teknisi survei Pagelaran Utara", metode: "Tunai", nominal: 50000 }
+    ];
+
+    let pelangganList = JSON.parse(localStorage.getItem(STATE_KEY_PELANGGAN)) || DEFAULT_PELANGGAN;
+    let kasList = JSON.parse(localStorage.getItem(STATE_KEY_KAS)) || DEFAULT_KAS;
+    let packageList = JSON.parse(localStorage.getItem(STATE_KEY_PAKET)) || DEFAULT_PACKAGES;
+    let rekeningInfo = JSON.parse(localStorage.getItem(STATE_KEY_REKENING)) || {
+      seabank: "9019-3294-4941",
+      dana: "0812-7273-7850",
+      gopay: "0812-7273-7850",
+      wa: "0812-7273-7850",
+      qris: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PT_JALUR_DATA_INDONESIA_BANYUMAS"
+    };
+
+    let activeReceiptData = null;
+    let cameraMediaStream = null;
+
+    function showSection(sectionId) {
+      const sections = ['landing', 'profil', 'cek-area', 'kontak', 'admin'];
+      sections.forEach(sec => {
+        const el = document.getElementById(`section-${sec}`);
+        if (el) el.classList.add('hidden');
+      });
+      const target = document.getElementById(`section-${sectionId}`);
+      if (target) {
+        target.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function switchAdminTab(tabName) {
+      document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+        btn.classList.remove('bg-cyan-500', 'text-slate-950');
+        btn.classList.add('bg-slate-800', 'text-slate-300');
+      });
+
+      const tabEl = document.getElementById(`adminTab-${tabName}`);
+      const btnEl = document.getElementById(`tabBtn-${tabName}`);
+      if (tabEl) tabEl.classList.remove('hidden');
+      if (btnEl) {
+        btnEl.classList.add('bg-cyan-500', 'text-slate-950');
+        btnEl.classList.remove('bg-slate-800', 'text-slate-300');
+      }
+
+      if (tabName === 'dash') renderDashboardSummary();
+      if (tabName === 'pelanggan') renderTablePelanggan();
+      if (tabName === 'kas-masuk') renderTableKasMasuk();
+      if (tabName === 'kas-keluar') renderTableKasKeluar();
+      if (tabName === 'paket') renderAdminPackages();
+    }
+
+    function renderPublicPackages() {
+      const container = document.getElementById('publicPackageList');
+      const regSelect = document.getElementById('regPaket');
+      const inpSelect = document.getElementById('inpPaket');
+
+      if (!container) return;
+      container.innerHTML = "";
+      if (regSelect) regSelect.innerHTML = "";
+      if (inpSelect) inpSelect.innerHTML = "";
+
+      packageList.forEach((pkg, index) => {
+        // Public Card
+        const card = document.createElement('div');
+        card.className = "glass-card rounded-3xl p-6 shadow-xl border border-white/60 flex flex-col justify-between hover:border-cyan-400 transition duration-300 relative group";
+        card.innerHTML = `
+          <div>
+            <div class="inline-block px-3 py-1 bg-cyan-100 text-cyan-800 font-bold text-xs rounded-full mb-3">
+              Fiber Optic
+            </div>
+            <h4 class="text-xl font-black text-slate-900">${pkg.speed}</h4>
+            <div class="mt-2 flex items-baseline gap-1">
+              <span class="text-2xl sm:text-3xl font-black text-cyan-600">Rp${formatNumber(pkg.harga)}</span>
+              <span class="text-xs text-slate-500 font-semibold">/ bulan</span>
+            </div>
+            <p class="text-slate-600 text-xs mt-3 leading-relaxed">${pkg.desc || 'Koneksi internet tanpa FUP kuota'}</p>
+            <div class="mt-4 pt-4 border-t border-slate-100 space-y-2 text-xs text-slate-700">
+              <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> Gratis Router Wifi</div>
+              <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> Bebas FUP / Kuota Sepuasnya</div>
+              <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> Layanan Support Banyumas</div>
+            </div>
+          </div>
+          <button onclick="pilihPaketDanDaftar('${pkg.speed}')" class="mt-6 w-full py-2.5 rounded-xl bg-slate-900 group-hover:bg-cyan-600 text-white font-bold text-xs transition duration-300 flex items-center justify-center gap-2">
+            Pilih Paket Ini <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        `;
+        container.appendChild(card);
+
+        // Select Options
+        if (regSelect) {
+          const opt = document.createElement('option');
+          opt.value = pkg.speed;
+          opt.textContent = `${pkg.speed} — Rp${formatNumber(pkg.harga)}/bln`;
+          regSelect.appendChild(opt);
+        }
+        if (inpSelect) {
+          const opt = document.createElement('option');
+          opt.value = pkg.speed;
+          opt.dataset.harga = pkg.harga;
+          opt.textContent = `${pkg.speed} — Rp${formatNumber(pkg.harga)}`;
+          inpSelect.appendChild(opt);
+        }
+      });
+    }
+
+    function pilihPaketDanDaftar(speed) {
+      showSection('cek-area');
+      const regSelect = document.getElementById('regPaket');
+      if (regSelect) regSelect.value = speed;
+    }
+
+    function handleCekAreaSubmit(e) {
+      e.preventDefault();
+      const nama = document.getElementById('regNama').value.trim();
+      const wa = document.getElementById('regHP').value.trim();
+      const desa = document.getElementById('regDesa').value;
+      const paketSpeed = document.getElementById('regPaket').value;
+      const previewImg = document.getElementById('regFotoPreview').src;
+
+      if (!nama || !wa || !desa) {
+        showToast("Mohon lengkapi formulir pendaftaran!", "warning");
+        return;
+      }
+
+      // Generate Auto Reservation Number
+      const randNum = Math.floor(1000 + Math.random() * 9000);
+      const resNumber = `RES-JDI-${randNum}`;
+
+      // Package Price Lookup
+      const selectedPkg = packageList.find(p => p.speed === paketSpeed) || packageList[0];
+      const today = new Date().toISOString().split('T')[0];
+      const nextDue = calculateDueDateFromDate(today);
+
+      const newRegistration = {
+        id: resNumber,
+        nama: nama,
+        wa: wa,
+        alamat: `${desa} (Cek Jangkauan Mandiri)`,
+        paket: selectedPkg.speed,
+        harga: selectedPkg.harga,
+        tglPasang: today,
+        tglTempo: nextDue,
+        statusPelanggan: "Menunggu Verifikasi",
+        statusBayar: "Belum Lunas",
+        foto: previewImg || "https://placehold.co/120x120/d97706/ffffff?text=Lokasi"
+      };
+
+      pelangganList.unshift(newRegistration);
+      savePelangganToStorage();
+
+      // Show Custom Success Notification
+      showToast(`Pendaftaran Berhasil! No Reservasi: ${resNumber}`, "success");
+
+      // Auto Redirect to WhatsApp with verification details
+      const waText = encodeURIComponent(
+        `Halo Admin PT JALUR DATA INDONESIA,\n\nSaya telah mendaftar Cek Area Pemasangan WIFI:\n` +
+        `• No Reservasi: ${resNumber}\n` +
+        `• Nama Lengkap: ${nama}\n` +
+        `• No WhatsApp: ${wa}\n` +
+        `• Desa / Wilayah: ${desa}\n` +
+        `• Pilihan Paket: ${selectedPkg.speed} (Rp${formatNumber(selectedPkg.harga)}/bln)\n` +
+        `• Status: Menunggu Verifikasi ODP/Tiang Terdekat\n\nMohon dicek jangkauan kabel ke rumah saya. Terima kasih!`
+      );
+
+      setTimeout(() => {
+        window.open(`https://wa.me/6281272737850?text=${waText}`, '_blank');
+      }, 900);
+
+      // Reset Form
+      document.getElementById('formCekArea').reset();
+      document.getElementById('regFotoPreviewWrapper').classList.add('hidden');
+      document.getElementById('regFotoFileName').textContent = "Belum ada foto dipilih";
+    }
+
+    function previewRegFoto(event) {
+      const file = event.target.files[0];
+      if (file) {
+        document.getElementById('regFotoFileName').textContent = file.name;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('regFotoPreview').src = e.target.result;
+          document.getElementById('regFotoPreviewWrapper').classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function openLoginModal() {
+      openModal('modalLogin');
+      document.getElementById('loginPassword').value = "";
+      document.getElementById('loginPassword').focus();
+    }
+
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const pwd = document.getElementById('loginPassword').value;
+      if (pwd === "adminjdi123") {
+        closeModal('modalLogin');
+        showToast("Login Berhasil! Selamat Datang di Dashboard JDI", "success");
+        showSection('admin');
+        switchAdminTab('dash');
+      } else {
+        showToast("Kata sandi salah! Coba periksa kembali.", "error");
+      }
+    }
+
+    function logoutAdmin() {
+      showToast("Anda telah keluar dari Dasbor Admin.", "info");
+      showSection('landing');
+    }
+
+    function renderDashboardSummary() {
+      const totalAktif = pelangganList.filter(p => p.statusPelanggan === "Aktif").length;
+      const totalIsolir = pelangganList.filter(p => p.statusPelanggan === "Isolir" || p.statusBayar === "Belum Lunas").length;
+      const totalPending = pelangganList.filter(p => p.statusPelanggan === "Menunggu Verifikasi").length;
+
+      const sumKasMasuk = kasList.filter(k => k.tipe === 'masuk').reduce((acc, curr) => acc + Number(curr.nominal), 0);
+      const sumKasKeluar = kasList.filter(k => k.tipe === 'keluar').reduce((acc, curr) => acc + Number(curr.nominal), 0);
+      const saldoBersih = sumKasMasuk - sumKasKeluar;
+
+      document.getElementById('dashTotalAktif').textContent = totalAktif;
+      document.getElementById('dashTotalIsolir').textContent = totalIsolir;
+      document.getElementById('dashTotalMasuk').textContent = `Rp${formatNumber(sumKasMasuk)}`;
+      document.getElementById('dashTotalKeluar').textContent = `Rp${formatNumber(sumKasKeluar)}`;
+      document.getElementById('dashSaldoBersih').textContent = `Rp${formatNumber(saldoBersih)}`;
+      document.getElementById('countBadgePelanggan').textContent = pelangganList.length;
+      document.getElementById('badgeReservasiBaru').textContent = `${totalPending} Permohonan`;
+
+      // Render Pending Verification List
+      const pendingContainer = document.getElementById('listReservasiPending');
+      pendingContainer.innerHTML = "";
+      const pendingItems = pelangganList.filter(p => p.statusPelanggan === "Menunggu Verifikasi");
+
+      if (pendingItems.length === 0) {
+        pendingContainer.innerHTML = `<div class="p-4 text-center text-slate-400 text-xs">Tidak ada permohonan reservasi yang menunggu verifikasi saat ini.</div>`;
+      } else {
+        pendingItems.forEach(item => {
+          const div = document.createElement('div');
+          div.className = "p-3 rounded-xl bg-amber-50/80 border border-amber-200 flex items-center justify-between gap-3";
+          div.innerHTML = `
+            <div class="flex items-center gap-3">
+              <img src="${item.foto}" class="w-10 h-10 rounded-lg object-cover border border-amber-300" />
+              <div>
+                <h5 class="text-xs font-bold text-slate-900">${item.nama} <span class="text-[10px] text-amber-800">(${item.id})</span></h5>
+                <div class="text-[11px] text-slate-600">${item.alamat} | Paket: ${item.paket}</div>
+                <div class="text-[10px] text-emerald-700 font-semibold">WA: ${item.wa}</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button onclick="approveReservation('${item.id}')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] rounded-lg transition" title="Verifikasi & Aktifkan">
+                <i class="fa-solid fa-check"></i> Aktifkan
+              </button>
+              <button onclick="hubungiWhatsApp('${item.wa}', '${item.nama}', '${item.id}')" class="px-2 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[11px]" title="Chat WA">
+                <i class="fa-brands fa-whatsapp"></i>
+              </button>
+            </div>
+          `;
+          pendingContainer.appendChild(div);
+        });
+      }
+    }
+
+    function approveReservation(id) {
+      const idx = pelangganList.findIndex(p => p.id === id);
+      if (idx !== -1) {
+        pelangganList[idx].statusPelanggan = "Aktif";
+        savePelangganToStorage();
+        renderDashboardSummary();
+        renderTablePelanggan();
+        showToast(`Pelanggan ${pelangganList[idx].nama} berhasil diverifikasi & diaktifkan!`, "success");
+
+        // Kirim notifikasi WA persetujuan
+        const text = encodeURIComponent(`Halo Bpk/Ibu ${pelangganList[idx].nama},\n\nKabar gembira! Reservasi pemasangan WIFI Anda (${pelangganList[idx].id}) telah DIVERIFIKASI dan Disetujui oleh PT JALUR DATA INDONESIA. Tim teknisi kami akan segera berkunjung untuk instalasi kabel dan perangkat router.`);
+        window.open(`https://wa.me/${cleanPhone(pelangganList[idx].wa)}?text=${text}`, '_blank');
+      }
+    }
+
+    function renderTablePelanggan() {
+      const tbody = document.getElementById('tablePelangganBody');
+      const search = (document.getElementById('searchPelangganInput')?.value || "").toLowerCase();
+      const filterStatus = document.getElementById('filterStatusPelanggan')?.value || "";
+      const filterBayar = document.getElementById('filterBayarPelanggan')?.value || "";
+
+      if (!tbody) return;
+      tbody.innerHTML = "";
+
+      const filtered = pelangganList.filter(p => {
+        const matchSearch = p.nama.toLowerCase().includes(search) || p.wa.includes(search) || p.alamat.toLowerCase().includes(search) || p.id.toLowerCase().includes(search);
+        const matchStatus = filterStatus ? p.statusPelanggan === filterStatus : true;
+        const matchBayar = filterBayar ? p.statusBayar === filterBayar : true;
+        return matchSearch && matchStatus && matchBayar;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-400 text-xs">Tidak ada data pelanggan yang cocok dengan pencarian.</td></tr>`;
+        return;
+      }
+
+      filtered.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50 transition";
+
+        // Status badges
+        let badgeStatusClass = "bg-slate-100 text-slate-700";
+        if (p.statusPelanggan === "Aktif") badgeStatusClass = "bg-emerald-100 text-emerald-800";
+        else if (p.statusPelanggan === "Isolir") badgeStatusClass = "bg-rose-100 text-rose-800";
+        else if (p.statusPelanggan === "Menunggu Verifikasi") badgeStatusClass = "bg-amber-100 text-amber-800";
+
+        let badgeBayarClass = p.statusBayar === "Lunas" ? "bg-emerald-100 text-emerald-800" : "bg-rose-100 text-rose-800";
+
+        tr.innerHTML = `
+          <td class="p-3">
+            <img src="${p.foto}" alt="Foto" class="w-10 h-10 rounded-xl object-cover border border-slate-200" onerror="this.src='https://placehold.co/100x100/0284c7/ffffff?text=User'" />
+          </td>
+          <td class="p-3">
+            <div class="font-bold text-slate-900">${p.nama}</div>
+            <div class="text-[11px] text-slate-500">${p.id}</div>
+            <a href="https://wa.me/${cleanPhone(p.wa)}" target="_blank" class="text-[11px] text-emerald-600 font-semibold hover:underline flex items-center gap-1">
+              <i class="fa-brands fa-whatsapp"></i> ${p.wa}
+            </a>
+          </td>
+          <td class="p-3 max-w-xs text-[11px] text-slate-700 truncate" title="${p.alamat}">${p.alamat}</td>
+          <td class="p-3">
+            <div class="font-bold text-slate-900">${p.paket}</div>
+            <div class="text-[11px] text-slate-500">Rp${formatNumber(p.harga)}/bln</div>
+          </td>
+          <td class="p-3">
+            <div class="text-[11px] text-slate-700">Pasang: ${p.tglPasang}</div>
+            <div class="text-[11px] font-bold ${p.statusBayar === 'Belum Lunas' ? 'text-rose-600' : 'text-slate-700'}">Tempo: ${p.tglTempo}</div>
+          </td>
+          <td class="p-3">
+            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${badgeStatusClass}">${p.statusPelanggan}</span>
+          </td>
+          <td class="p-3">
+            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${badgeBayarClass}">${p.statusBayar}</span>
+          </td>
+          <td class="p-3 text-center">
+            <div class="flex items-center justify-center gap-1.5 flex-wrap">
+              <button onclick="bayarDanCetakStruk('${p.id}')" class="p-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs" title="Cetak Struk Pembayaran">
+                <i class="fa-solid fa-receipt"></i>
+              </button>
+              <button onclick="kirimNotifTagihanWA('${p.id}')" class="p-1.5 bg-green-500 hover:bg-green-400 text-white rounded-lg text-xs" title="Kirim Tagihan WA">
+                <i class="fa-brands fa-whatsapp"></i>
+              </button>
+              <button onclick="editPelanggan('${p.id}')" class="p-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs" title="Ubah Data">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <button onclick="toggleIsolirPelanggan('${p.id}')" class="p-1.5 ${p.statusPelanggan === 'Isolir' ? 'bg-amber-600' : 'bg-rose-600'} hover:opacity-90 text-white rounded-lg text-xs" title="Toggle Isolir / Aktif">
+                <i class="fa-solid ${p.statusPelanggan === 'Isolir' ? 'fa-unlock' : 'fa-ban'}"></i>
+              </button>
+              <button onclick="hapusPelanggan('${p.id}')" class="p-1.5 bg-slate-700 hover:bg-slate-900 text-white rounded-lg text-xs" title="Hapus Data">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function openModalTambahPelanggan() {
+      document.getElementById('editPelangganId').value = "";
+      document.getElementById('modalPelangganTitle').textContent = "Tambah Data Pelanggan Baru";
+      document.getElementById('formPelanggan').reset();
+      
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('inpTglPasang').value = today;
+      document.getElementById('inpTglTempo').value = calculateDueDateFromDate(today);
+
+      renderPublicPackages();
+      syncPackagePriceInput();
+
+      document.getElementById('customerPhotoPreview').src = "https://placehold.co/100x100/0284c7/ffffff?text=User";
+      openModal('modalPelanggan');
+    }
+
+    function editPelanggan(id) {
+      const p = pelangganList.find(x => x.id === id);
+      if (!p) return;
+
+      document.getElementById('editPelangganId').value = p.id;
+      document.getElementById('modalPelangganTitle').textContent = `Edit Data Pelanggan (${p.id})`;
+
+      document.getElementById('inpNama').value = p.nama;
+      document.getElementById('inpWA').value = p.wa;
+      document.getElementById('inpAlamat').value = p.alamat;
+      document.getElementById('inpPaket').value = p.paket;
+      document.getElementById('inpHarga').value = p.harga;
+      document.getElementById('inpTglPasang').value = p.tglPasang;
+      document.getElementById('inpTglTempo').value = p.tglTempo;
+      document.getElementById('inpStatusPelanggan').value = p.statusPelanggan;
+      document.getElementById('inpStatusBayar').value = p.statusBayar;
+      document.getElementById('customerPhotoPreview').src = p.foto;
+
+      openModal('modalPelanggan');
+    }
+
+    function handleSavePelanggan(e) {
+      e.preventDefault();
+      const editId = document.getElementById('editPelangganId').value;
+      const nama = document.getElementById('inpNama').value.trim();
+      const wa = document.getElementById('inpWA').value.trim();
+      const alamat = document.getElementById('inpAlamat').value.trim();
+      const paket = document.getElementById('inpPaket').value;
+      const harga = Number(document.getElementById('inpHarga').value);
+      const tglPasang = document.getElementById('inpTglPasang').value;
+      const tglTempo = document.getElementById('inpTglTempo').value;
+      const statusPelanggan = document.getElementById('inpStatusPelanggan').value;
+      const statusBayar = document.getElementById('inpStatusBayar').value;
+      const foto = document.getElementById('customerPhotoPreview').src;
+
+      if (editId) {
+        // Update
+        const idx = pelangganList.findIndex(p => p.id === editId);
+        if (idx !== -1) {
+          pelangganList[idx] = { ...pelangganList[idx], nama, wa, alamat, paket, harga, tglPasang, tglTempo, statusPelanggan, statusBayar, foto };
+          showToast(`Data pelanggan ${nama} berhasil diperbarui!`, "success");
+        }
+      } else {
+        // Create
+        const newId = `JDI-${Math.floor(1000 + Math.random() * 9000)}`;
+        pelangganList.unshift({
+          id: newId,
+          nama, wa, alamat, paket, harga, tglPasang, tglTempo, statusPelanggan, statusBayar, foto
+        });
+        showToast(`Pelanggan baru ${nama} berhasil ditambahkan!`, "success");
+      }
+
+      savePelangganToStorage();
+      closeModal('modalPelanggan');
+      renderTablePelanggan();
+      renderDashboardSummary();
+    }
+
+    function hapusPelanggan(id) {
+      const p = pelangganList.find(x => x.id === id);
+      if (!p) return;
+      pelangganList = pelangganList.filter(x => x.id !== id);
+      savePelangganToStorage();
+      renderTablePelanggan();
+      renderDashboardSummary();
+      showToast(`Data pelanggan ${p.nama} telah dihapus.`, "info");
+    }
+
+    function toggleIsolirPelanggan(id) {
+      const idx = pelangganList.findIndex(x => x.id === id);
+      if (idx !== -1) {
+        if (pelangganList[idx].statusPelanggan === "Isolir") {
+          pelangganList[idx].statusPelanggan = "Aktif";
+          showToast(`Koneksi ${pelangganList[idx].nama} diaktifkan kembali!`, "success");
+        } else {
+          pelangganList[idx].statusPelanggan = "Isolir";
+          showToast(`Koneksi ${pelangganList[idx].nama} telah diisolir sementara.`, "warning");
+        }
+        savePelangganToStorage();
+        renderTablePelanggan();
+        renderDashboardSummary();
+      }
+    }
+
+    async function startCameraCapture() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+        cameraMediaStream = stream;
+        const video = document.getElementById('cameraVideo');
+        video.srcObject = stream;
+        document.getElementById('cameraStreamContainer').classList.remove('hidden');
+      } catch (err) {
+        showToast("Tidak dapat mengakses kamera. Pastikan izin kamera aktif.", "error");
+      }
+    }
+
+    function captureFromCamera() {
+      const video = document.getElementById('cameraVideo');
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth || 320;
+      canvas.height = video.videoHeight || 240;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+      document.getElementById('customerPhotoPreview').src = dataUrl;
+      stopCameraStream();
+    }
+
+    function stopCameraStream() {
+      if (cameraMediaStream) {
+        cameraMediaStream.getTracks().forEach(track => track.stop());
+        cameraMediaStream = null;
+      }
+      document.getElementById('cameraStreamContainer').classList.add('hidden');
+    }
+
+    function handleCustomerPhotoUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('customerPhotoPreview').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function clearCustomerPhoto() {
+      document.getElementById('customerPhotoPreview').src = "https://placehold.co/100x100/0284c7/ffffff?text=User";
+    }
+
+    function calculateDueDate() {
+      const installDate = document.getElementById('inpTglPasang').value;
+      if (installDate) {
+        document.getElementById('inpTglTempo').value = calculateDueDateFromDate(installDate);
+      }
+    }
+
+    function calculateDueDateFromDate(dateStr) {
+      const d = new Date(dateStr);
+      d.setDate(d.getDate() + 30);
+      return d.toISOString().split('T')[0];
+    }
+
+    function syncPackagePriceInput() {
+      const sel = document.getElementById('inpPaket');
+      const selectedOpt = sel.options[sel.selectedIndex];
+      if (selectedOpt && selectedOpt.dataset.harga) {
+        document.getElementById('inpHarga').value = selectedOpt.dataset.harga;
+      }
+    }
+
+    function bayarDanCetakStruk(pelangganId) {
+      const p = pelangganList.find(x => x.id === pelangganId);
+      if (!p) return;
+
+      // Update status to Lunas & extend due date
+      const nextDue = calculateDueDateFromDate(p.tglTempo);
+      p.statusBayar = "Lunas";
+      p.statusPelanggan = "Aktif";
+      p.tglTempo = nextDue;
+      savePelangganToStorage();
+
+      // Record Kas Masuk
+      const invNo = `INV-${Math.floor(1000 + Math.random() * 9000)}`;
+      const today = new Date().toISOString().split('T')[0];
+      kasList.unshift({
+        id: invNo,
+        tipe: "masuk",
+        tgl: today,
+        pelangganId: p.id,
+        nama: p.nama,
+        ket: `Pembayaran Iuran WIFI ${p.paket}`,
+        metode: "Transfer Seabank / QRIS",
+        nominal: p.harga
+      });
+      saveKasToStorage();
+
+      // Prepare Thermal Struk Data
+      activeReceiptData = {
+        nota: invNo,
+        date: new Date().toLocaleString('id-ID'),
+        nama: p.nama,
+        wa: p.wa,
+        paket: `WIFI ${p.paket}`,
+        harga: `Rp${formatNumber(p.harga)}`,
+        nextTempo: nextDue,
+        metode: "Seabank / QRIS / Tunai",
+        total: `Rp${formatNumber(p.harga)}`
+      };
+
+      document.getElementById('receiptNo').textContent = activeReceiptData.nota;
+      document.getElementById('receiptDate').textContent = activeReceiptData.date;
+      document.getElementById('receiptNama').textContent = activeReceiptData.nama;
+      document.getElementById('receiptWA').textContent = activeReceiptData.wa;
+      document.getElementById('receiptPaket').textContent = activeReceiptData.paket;
+      document.getElementById('receiptHarga').textContent = activeReceiptData.harga;
+      document.getElementById('receiptNextTempo').textContent = activeReceiptData.nextTempo;
+      document.getElementById('receiptMetode').textContent = activeReceiptData.metode;
+      document.getElementById('receiptTotal').textContent = activeReceiptData.total;
+
+      openModal('modalStruk');
+      renderTablePelanggan();
+      renderDashboardSummary();
+    }
+
+    function sendReceiptWAFromModal() {
+      if (!activeReceiptData) return;
+      const text = encodeURIComponent(
+        `*PT JALUR DATA INDONESIA - BUKTI PEMBAYARAN SAH*\n` +
+        `----------------------------------------\n` +
+        `Terima kasih Bpk/Ibu *${activeReceiptData.nama}*!\n` +
+        `Pembayaran iuran internet Anda telah kami terima:\n\n` +
+        `• No Transaksi: ${activeReceiptData.nota}\n` +
+        `• Waktu: ${activeReceiptData.date}\n` +
+        `• Paket Layanan: ${activeReceiptData.paket}\n` +
+        `• Jumlah Bayar: *${activeReceiptData.total}* (LUNAS)\n` +
+        `• Jatuh Tempo Berikutnya: *${activeReceiptData.nextTempo}*\n\n` +
+        `Informasi Rekening Resmi JDI:\n` +
+        `- Seabank: ${rekeningInfo.seabank} (PT Jalur Data Indonesia)\n` +
+        `- DANA / GOPAY: ${rekeningInfo.dana}\n\n` +
+        `Kantor: Jl. AMD RT 010 RW 03 Banyumas (Depan Pertashop)\n` +
+        `Pusat Bantuan WA: ${rekeningInfo.wa}\n\n` +
+        `_Simpan pesan ini sebagai tanda terima sah._`
+      );
+      window.open(`https://wa.me/${cleanPhone(activeReceiptData.wa)}?text=${text}`, '_blank');
+    }
+
+    function kirimNotifTagihanWA(pelangganId) {
+      const p = pelangganList.find(x => x.id === pelangganId);
+      if (!p) return;
+      const text = encodeURIComponent(
+        `*PEMBERITAHUAN TAGIHAN INTERNET WIFI JDI*\n` +
+        `Yth. Bpk/Ibu *${p.nama}* (${p.id}),\n\n` +
+        `Kami informasikan bahwa tagihan internet rumah Anda:\n` +
+        `• Paket: ${p.paket}\n` +
+        `• Total Biaya: *Rp${formatNumber(p.harga)}*\n` +
+        `• Tanggal Jatuh Tempo: *${p.tglTempo}*\n` +
+        `• Status: Belum Lunas\n\n` +
+        `Pembayaran dapat ditransfer melalui:\n` +
+        `• Seabank: *${rekeningInfo.seabank}* a.n PT Jalur Data Indonesia\n` +
+        `• DANA: *${rekeningInfo.dana}*\n` +
+        `• GOPAY: *${rekeningInfo.gopay}*\n` +
+        `• Atau Scan QRIS langsung di gerai kami.\n\n` +
+        `Setelah transfer, silakan kirimkan bukti bayar ke WA ini. Terima kasih telah berlangganan di PT JALUR DATA INDONESIA!`
+      );
+      window.open(`https://wa.me/${cleanPhone(p.wa)}?text=${text}`, '_blank');
+    }
+
+    function renderTableKasMasuk() {
+      const tbody = document.getElementById('tableKasMasukBody');
+      if (!tbody) return;
+      tbody.innerHTML = "";
+      const masukItems = kasList.filter(k => k.tipe === 'masuk');
+
+      if (masukItems.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400 text-xs">Belum ada transaksi kas masuk tercatat.</td></tr>`;
+        return;
+      }
+
+      masukItems.forEach(k => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50 transition";
+        tr.innerHTML = `
+          <td class="p-3 font-mono font-bold text-slate-900">${k.id}</td>
+          <td class="p-3 text-slate-600">${k.tgl}</td>
+          <td class="p-3">
+            <div class="font-bold text-slate-900">${k.nama || '-'}</div>
+            <div class="text-[11px] text-slate-500">${k.ket}</div>
+          </td>
+          <td class="p-3"><span class="px-2 py-0.5 bg-blue-50 text-blue-700 rounded text-[11px] font-semibold">${k.metode}</span></td>
+          <td class="p-3 font-bold text-emerald-600">+Rp${formatNumber(k.nominal)}</td>
+          <td class="p-3 text-center">
+            <button onclick="cetakUlangKasMasuk('${k.id}')" class="px-2 py-1 bg-slate-800 text-white rounded text-xs hover:bg-slate-700">
+              <i class="fa-solid fa-receipt"></i> Struk
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderTableKasKeluar() {
+      const tbody = document.getElementById('tableKasKeluarBody');
+      if (!tbody) return;
+      tbody.innerHTML = "";
+      const keluarItems = kasList.filter(k => k.tipe === 'keluar');
+
+      if (keluarItems.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400 text-xs">Belum ada transaksi pengeluaran tercatat.</td></tr>`;
+        return;
+      }
+
+      keluarItems.forEach(k => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50 transition";
+        tr.innerHTML = `
+          <td class="p-3 font-mono font-bold text-slate-900">${k.id}</td>
+          <td class="p-3 text-slate-600">${k.tgl}</td>
+          <td class="p-3"><span class="px-2 py-0.5 bg-amber-100 text-amber-800 rounded font-semibold text-[11px]">${k.kategori || 'Operasional'}</span></td>
+          <td class="p-3 text-slate-700">${k.ket}</td>
+          <td class="p-3 font-bold text-rose-600">-Rp${formatNumber(k.nominal)}</td>
+          <td class="p-3 text-center">
+            <button onclick="hapusKas('${k.id}')" class="text-rose-600 hover:text-rose-800 p-1">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function openModalKas(tipe) {
+      document.getElementById('inpKasTipe').value = tipe;
+      document.getElementById('modalKasTitle').textContent = tipe === 'masuk' ? 'Catat Transaksi Kas Masuk (Iuran)' : 'Catat Pengeluaran Kas Keluar (Operasional)';
+      document.getElementById('inpKasTanggal').value = new Date().toISOString().split('T')[0];
+      document.getElementById('formKas').reset();
+
+      const selPelanggan = document.getElementById('inpKasPelangganId');
+      const fieldPelanggan = document.getElementById('fieldKasPelanggan');
+
+      if (tipe === 'masuk') {
+        fieldPelanggan.classList.remove('hidden');
+        selPelanggan.innerHTML = `<option value="">-- Pilih Pelanggan (Bila Iuran) --</option>`;
+        pelangganList.forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p.id;
+          opt.textContent = `${p.nama} (${p.paket} - Rp${formatNumber(p.harga)})`;
+          selPelanggan.appendChild(opt);
+        });
+      } else {
+        fieldPelanggan.classList.add('hidden');
+      }
+
+      openModal('modalKas');
+    }
+
+    function autoFillKasPelanggan() {
+      const pid = document.getElementById('inpKasPelangganId').value;
+      const p = pelangganList.find(x => x.id === pid);
+      if (p) {
+        document.getElementById('inpKasDeskripsi').value = `Iuran WIFI ${p.paket} Bpk/Ibu ${p.nama}`;
+        document.getElementById('inpKasNominal').value = p.harga;
+      }
+    }
+
+    function handleSaveKas(e) {
+      e.preventDefault();
+      const tipe = document.getElementById('inpKasTipe').value;
+      const tgl = document.getElementById('inpKasTanggal').value;
+      const desc = document.getElementById('inpKasDeskripsi').value;
+      const metode = document.getElementById('inpKasMetode').value;
+      const nominal = Number(document.getElementById('inpKasNominal').value);
+      const pid = document.getElementById('inpKasPelangganId')?.value || "";
+
+      const prefix = tipe === 'masuk' ? 'KM' : 'KK';
+      const newId = `${prefix}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+      let namaPelanggan = "";
+      if (pid) {
+        const p = pelangganList.find(x => x.id === pid);
+        if (p) {
+          namaPelanggan = p.nama;
+          p.statusBayar = "Lunas";
+          p.statusPelanggan = "Aktif";
+          savePelangganToStorage();
+        }
+      }
+
+      kasList.unshift({
+        id: newId,
+        tipe: tipe,
+        tgl: tgl,
+        pelangganId: pid,
+        nama: namaPelanggan,
+        kategori: tipe === 'keluar' ? 'Operasional' : 'Iuran',
+        ket: desc,
+        metode: metode,
+        nominal: nominal
+      });
+
+      saveKasToStorage();
+      closeModal('modalKas');
+      showToast("Transaksi kas berhasil disimpan!", "success");
+      renderTableKasMasuk();
+      renderTableKasKeluar();
+      renderDashboardSummary();
+      renderTablePelanggan();
+    }
+
+    function cetakUlangKasMasuk(kasId) {
+      const k = kasList.find(x => x.id === kasId);
+      if (!k) return;
+      activeReceiptData = {
+        nota: k.id,
+        date: k.tgl,
+        nama: k.nama || "Pelanggan",
+        wa: "-",
+        paket: k.ket,
+        harga: `Rp${formatNumber(k.nominal)}`,
+        nextTempo: "Sesuai Jadwal",
+        metode: k.metode,
+        total: `Rp${formatNumber(k.nominal)}`
+      };
+      document.getElementById('receiptNo').textContent = activeReceiptData.nota;
+      document.getElementById('receiptDate').textContent = activeReceiptData.date;
+      document.getElementById('receiptNama').textContent = activeReceiptData.nama;
+      document.getElementById('receiptWA').textContent = activeReceiptData.wa;
+      document.getElementById('receiptPaket').textContent = activeReceiptData.paket;
+      document.getElementById('receiptHarga').textContent = activeReceiptData.harga;
+      document.getElementById('receiptNextTempo').textContent = activeReceiptData.nextTempo;
+      document.getElementById('receiptMetode').textContent = activeReceiptData.metode;
+      document.getElementById('receiptTotal').textContent = activeReceiptData.total;
+      openModal('modalStruk');
+    }
+
+    function hapusKas(kasId) {
+      kasList = kasList.filter(k => k.id !== kasId);
+      saveKasToStorage();
+      renderTableKasKeluar();
+      renderDashboardSummary();
+      showToast("Catatan kas telah dihapus.", "info");
+    }
+
+    function renderAdminPackages() {
+      const container = document.getElementById('adminPackageGrid');
+      if (!container) return;
+      container.innerHTML = "";
+
+      packageList.forEach((pkg, index) => {
+        const div = document.createElement('div');
+        div.className = "glass-card p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between";
+        div.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase text-cyan-600">${pkg.speed}</span>
+              <div class="space-x-1">
+                <button onclick="editPaket(${index})" class="text-blue-600 hover:text-blue-800 p-1"><i class="fa-solid fa-pen"></i></button>
+                <button onclick="hapusPaket(${index})" class="text-rose-600 hover:text-rose-800 p-1"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm mt-1">${pkg.nama}</h4>
+            <div class="text-lg font-black text-cyan-700 mt-2">Rp${formatNumber(pkg.harga)}/bln</div>
+            <p class="text-slate-600 text-xs mt-1">${pkg.desc || '-'}</p>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function openModalPaket() {
+      document.getElementById('editPaketIndex').value = "-1";
+      document.getElementById('modalPaketTitle').textContent = "Tambah Paket Internet Baru";
+      document.getElementById('inpPaketNama').value = "";
+      document.getElementById('inpPaketSpeed').value = "";
+      document.getElementById('inpPaketHarga').value = "";
+      document.getElementById('inpPaketDesc').value = "";
+      openModal('modalPaketEdit');
+    }
+
+    function editPaket(index) {
+      const p = packageList[index];
+      if (!p) return;
+      document.getElementById('editPaketIndex').value = index;
+      document.getElementById('modalPaketTitle').textContent = `Edit Paket ${p.speed}`;
+      document.getElementById('inpPaketNama').value = p.nama;
+      document.getElementById('inpPaketSpeed').value = p.speed;
+      document.getElementById('inpPaketHarga').value = p.harga;
+      document.getElementById('inpPaketDesc').value = p.desc || "";
+      openModal('modalPaketEdit');
+    }
+
+    function handleSavePaket(e) {
+      e.preventDefault();
+      const idx = Number(document.getElementById('editPaketIndex').value);
+      const nama = document.getElementById('inpPaketNama').value.trim();
+      const speed = document.getElementById('inpPaketSpeed').value.trim();
+      const harga = Number(document.getElementById('inpPaketHarga').value);
+      const desc = document.getElementById('inpPaketDesc').value.trim();
+
+      if (idx >= 0) {
+        packageList[idx] = { nama, speed, harga, desc };
+        showToast(`Paket ${speed} berhasil diubah!`, "success");
+      } else {
+        packageList.push({ nama, speed, harga, desc });
+        showToast(`Paket baru ${speed} berhasil ditambahkan!`, "success");
+      }
+
+      localStorage.setItem(STATE_KEY_PAKET, JSON.stringify(packageList));
+      closeModal('modalPaketEdit');
+      renderAdminPackages();
+      renderPublicPackages();
+    }
+
+    function hapusPaket(index) {
+      if (packageList.length <= 1) {
+        showToast("Minimal harus ada 1 paket internet tersimpan.", "warning");
+        return;
+      }
+      packageList.splice(index, 1);
+      localStorage.setItem(STATE_KEY_PAKET, JSON.stringify(packageList));
+      renderAdminPackages();
+      renderPublicPackages();
+      showToast("Paket internet dihapus.", "info");
+    }
+
+    function handleSaveRekening(e) {
+      e.preventDefault();
+      rekeningInfo.seabank = document.getElementById('settingSeabank').value.trim();
+      rekeningInfo.dana = document.getElementById('settingDana').value.trim();
+      rekeningInfo.gopay = document.getElementById('settingGopay').value.trim();
+      rekeningInfo.wa = document.getElementById('settingWA').value.trim();
+      rekeningInfo.qris = document.getElementById('qrisPreviewImg').src;
+
+      localStorage.setItem(STATE_KEY_REKENING, JSON.stringify(rekeningInfo));
+      showToast("Pengaturan rekening & QRIS berhasil disimpan!", "success");
+    }
+
+    function handleQRISUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('qrisPreviewImg').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function handleLogoUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const logoData = e.target.result;
+          localStorage.setItem(STATE_KEY_LOGO, logoData);
+          applyCompanyLogo(logoData);
+          showToast("Logo PT JALUR DATA INDONESIA berhasil diperbarui dari galeri!", "success");
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function applyCompanyLogo(src) {
+      if (!src) return;
+      const navLogo = document.getElementById('companyLogoNav');
+      const profilLogo = document.getElementById('companyLogoProfil');
+      if (navLogo) {
+        navLogo.innerHTML = `<img src="${src}" alt="Logo" class="w-full h-full object-cover" />`;
+      }
+      if (profilLogo) {
+        profilLogo.innerHTML = `<img src="${src}" alt="Logo" class="w-full h-full object-cover rounded-xl" />`;
+      }
+    }
+
+    function buatDatabaseCSVWajib() {
+      // Create Database (CSV Wajib) dibuat secara langsung oleh aplikasi dan auto reload databasenya
+      let csvContent = "ID,Nama,No_WA,Alamat,Paket,Harga,Tgl_Pasang,Tgl_Tempo,Status_Pelanggan,Status_Bayar\n";
+      pelangganList.forEach(p => {
+        const row = [
+          `"${p.id}"`,
+          `"${p.nama.replace(/"/g, '""')}"`,
+          `"${p.wa}"`,
+          `"${p.alamat.replace(/"/g, '""')}"`,
+          `"${p.paket}"`,
+          p.harga,
+          `"${p.tglPasang}"`,
+          `"${p.tglTempo}"`,
+          `"${p.statusPelanggan}"`,
+          `"${p.statusBayar}"`
+        ];
+        csvContent += row.join(",") + "\n";
+      });
+
+      const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      const filename = `DATABASE_JDI_WIFI_${new Date().toISOString().slice(0,10)}.csv`;
+      link.setAttribute("href", url);
+      link.setAttribute("download", filename);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      showToast("Database CSV Berhasil Dibuat! Sistem Me-Reload Data...", "success");
+
+      // Auto Reload Database
+      setTimeout(() => {
+        renderTablePelanggan();
+        renderDashboardSummary();
+      }, 700);
+    }
+
+    function exportCSVDirect() {
+      buatDatabaseCSVWajib();
+    }
+
+    function handleImportCSV(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const text = e.target.result;
+        parseAndApplyCSV(text);
+      };
+      reader.readAsText(file);
+    }
+
+    function parseAndApplyCSV(text) {
+      try {
+        const lines = text.split(/\r?\n/).filter(line => line.trim() !== "");
+        if (lines.length <= 1) {
+          showToast("File CSV kosong atau tidak valid.", "error");
+          return;
+        }
+
+        const newPelanggan = [];
+        for (let i = 1; i < lines.length; i++) {
+          const row = parseCSVRow(lines[i]);
+          if (row.length >= 8) {
+            newPelanggan.push({
+              id: row[0] || `JDI-${1000 + i}`,
+              nama: row[1] || "Pelanggan CSV",
+              wa: row[2] || "081272737850",
+              alamat: row[3] || "Banyumas",
+              paket: row[4] || "20 Mbps",
+              harga: Number(row[5]) || 155000,
+              tglPasang: row[6] || new Date().toISOString().split('T')[0],
+              tglTempo: row[7] || calculateDueDateFromDate(new Date().toISOString().split('T')[0]),
+              statusPelanggan: row[8] || "Aktif",
+              statusBayar: row[9] || "Belum Lunas",
+              foto: "https://placehold.co/100x100/0284c7/ffffff?text=User"
+            });
+          }
+        }
+
+        if (newPelanggan.length > 0) {
+          pelangganList = newPelanggan;
+          savePelangganToStorage();
+          renderTablePelanggan();
+          renderDashboardSummary();
+          showToast(`Berhasil mengimpor ${newPelanggan.length} data pelanggan dari CSV!`, "success");
+        } else {
+          showToast("Format kolom CSV tidak cocok. Pastikan header sesuai.", "error");
+        }
+      } catch (err) {
+        showToast("Gagal membaca berkas CSV.", "error");
+      }
+    }
+
+    function parseCSVRow(row) {
+      const regex = /(?:,|\n|^)("(?:(?:"")*[^"]*)*"|[^",\n]*|(?:\n|$))/g;
+      const entries = [];
+      let match;
+      while ((match = regex.exec(row)) !== null) {
+        let val = match[1];
+        if (val) {
+          if (val.startsWith('"') && val.endsWith('"')) {
+            val = val.slice(1, -1).replace(/""/g, '"');
+          }
+          entries.push(val.trim());
+        }
+      }
+      return entries;
+    }
+
+    async function saveAndTestGAS() {
+      const url = document.getElementById('gasApiUrl').value.trim();
+      if (!url) {
+        showToast("Masukkan URL Google Apps Script Anda!", "warning");
+        return;
+      }
+      localStorage.setItem("jdi_gas_url", url);
+      showToast("Menghubungkan ke Google Apps Script...", "info");
+
+      try {
+        const payload = {
+          action: "syncAll",
+          data: pelangganList
+        };
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const json = await res.json();
+        if (json.status === "success") {
+          showToast("Google Sheets Berhasil Disinkronisasi!", "success");
+        } else {
+          showToast(json.message || "Gagal sinkron ke GAS.", "error");
+        }
+      } catch (err) {
+        // Many GAS deployments return CORS redirect which still writes successfully
+        showToast("Data dikirim ke Google Sheets (periksa sheet Anda).", "success");
+      }
+    }
+
+    function copyCodeGS() {
+      const code = document.getElementById('codeGsBlock').textContent;
+      const textArea = document.createElement("textarea");
+      textArea.value = code;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast("Kode Code.gs berhasil disalin ke clipboard!", "success");
+      } catch (err) {
+        showToast("Gagal menyalin kode.", "error");
+      }
+      document.body.removeChild(textArea);
+    }
+
+    function savePelangganToStorage() {
+      localStorage.setItem(STATE_KEY_PELANGGAN, JSON.stringify(pelangganList));
+    }
+
+    function saveKasToStorage() {
+      localStorage.setItem(STATE_KEY_KAS, JSON.stringify(kasList));
+    }
+
+    function formatNumber(num) {
+      return Number(num).toLocaleString('id-ID');
+    }
+
+    function cleanPhone(phone) {
+      let p = phone.replace(/[^0-9]/g, '');
+      if (p.startsWith('0')) p = '62' + p.substring(1);
+      return p;
+    }
+
+    function hubungiWhatsApp(wa, nama, id) {
+      const text = encodeURIComponent(`Halo Bpk/Ibu ${nama} (${id}), kami dari Tim PT JALUR DATA INDONESIA...`);
+      window.open(`https://wa.me/${cleanPhone(wa)}?text=${text}`, '_blank');
+    }
+
+    function sendQuickWAMessage() {
+      const name = document.getElementById('quickSenderName').value.trim();
+      const msg = document.getElementById('quickSenderMsg').value.trim();
+      if (!name || !msg) {
+        showToast("Isi nama dan pesan terlebih dahulu!", "warning");
+        return;
+      }
+      const text = encodeURIComponent(`Halo CS PT JALUR DATA INDONESIA,\nNama: ${name}\nPesan: ${msg}`);
+      window.open(`https://wa.me/6281272737850?text=${text}`, '_blank');
+    }
+
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) modal.classList.add('hidden');
+      if (modalId === 'modalPelanggan') stopCameraStream();
+    }
+
+    function showToast(msg, type = "success") {
+      const toast = document.getElementById('toastNotification');
+      const toastCard = document.getElementById('toastCard');
+      const toastMsg = document.getElementById('toastMsg');
+      const toastIcon = document.getElementById('toastIcon');
+
+      toastMsg.textContent = msg;
+      if (type === "success") {
+        toastCard.className = "px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3 text-xs font-semibold text-white bg-slate-900 border border-emerald-500/50";
+        toastIcon.className = "fa-solid fa-circle-check text-emerald-400 text-base";
+      } else if (type === "error") {
+        toastCard.className = "px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3 text-xs font-semibold text-white bg-slate-900 border border-rose-500/50";
+        toastIcon.className = "fa-solid fa-circle-xmark text-rose-400 text-base";
+      } else if (type === "warning") {
+        toastCard.className = "px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3 text-xs font-semibold text-white bg-slate-900 border border-amber-500/50";
+        toastIcon.className = "fa-solid fa-triangle-exclamation text-amber-400 text-base";
+      } else {
+        toastCard.className = "px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3 text-xs font-semibold text-white bg-slate-900 border border-cyan-500/50";
+        toastIcon.className = "fa-solid fa-circle-info text-cyan-400 text-base";
+      }
+
+      toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+      }, 3500);
+    }
+
+    window.onload = function() {
+      // Year footer
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+      // Render default public content
+      renderPublicPackages();
+
+      // Saved Logo
+      const savedLogo = localStorage.getItem(STATE_KEY_LOGO);
+      if (savedLogo) applyCompanyLogo(savedLogo);
+
+      // Saved Bank Settings to Input
+      document.getElementById('settingSeabank').value = rekeningInfo.seabank;
+      document.getElementById('settingDana').value = rekeningInfo.dana;
+      document.getElementById('settingGopay').value = rekeningInfo.gopay;
+      document.getElementById('settingWA').value = rekeningInfo.wa;
+      if (rekeningInfo.qris) {
+        document.getElementById('qrisPreviewImg').src = rekeningInfo.qris;
+      }
+
+      // Saved GAS URL
+      const savedGAS = localStorage.getItem("jdi_gas_url");
+      if (savedGAS) document.getElementById('gasApiUrl').value = savedGAS;
+    };
+  </script>
+</body>
+</html>
